@@ -3,7 +3,7 @@ package de.ossenbeck.mattes.day01;
 import de.ossenbeck.mattes.SolveableTest;
 import io.vavr.collection.List;
 
-class ElfManagerTest extends SolveableTest<Integer>
+class CalorieCounterTest extends SolveableTest<Integer>
 {
 	private static final List<Elf> ELVES = List.of(
 			new Elf(List.of(new Item(1000), new Item(2000), new Item(3000))),
@@ -12,9 +12,9 @@ class ElfManagerTest extends SolveableTest<Integer>
 			new Elf(List.of(new Item(7000), new Item(8000), new Item(9000))),
 			new Elf(List.of(new Item(10000))));
 
-	public ElfManagerTest()
+	public CalorieCounterTest()
 	{
-		super(new ElfManager(ELVES));
+		super(new CalorieCounter(ELVES));
 	}
 
 	@Override

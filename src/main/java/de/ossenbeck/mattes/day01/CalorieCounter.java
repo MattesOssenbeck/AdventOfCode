@@ -5,11 +5,11 @@ import io.vavr.collection.List;
 
 import java.util.Comparator;
 
-public class ElfManager implements Solveable<Integer>
+public class CalorieCounter implements Solveable<Integer>
 {
 	private final List<Elf> elves;
 
-	public ElfManager(List<Elf> elves)
+	public CalorieCounter(List<Elf> elves)
 	{
 		this.elves = elves;
 	}
@@ -17,18 +17,21 @@ public class ElfManager implements Solveable<Integer>
 	@Override
 	public Integer solvePartOne()
 	{
-		return elves.toStream()
-				.map(Elf::getTotalCalories)
-				.reduce(Integer::max);
+		return determineNLargestNumberOfCalories(1);
 	}
 
 	@Override
 	public Integer solvePartTwo()
 	{
+		return determineNLargestNumberOfCalories(3);
+	}
+
+	private Integer determineNLargestNumberOfCalories(Integer limit)
+	{
 		return elves.toStream()
 				.map(Elf::getTotalCalories)
 				.sorted(Comparator.reverseOrder())
-				.subSequence(0, 3)
+				.subSequence(0, limit)
 				.reduce(Integer::sum);
 	}
 }
