@@ -8,31 +8,17 @@ import java.nio.file.Paths;
 
 public class InputReader
 {
-	public static List<String> readAsList(String filename)
+	public static List<String> readAsList(String filename) throws Exception
 	{
-		try
-		{
-			return List.ofAll(Files.readAllLines(
-					Paths.get(InputReader.class.getResource("/" + filename).toURI()),
-					StandardCharsets.UTF_8));
-		}
-		catch (Exception e)
-		{
-			throw new RuntimeException(e);
-		}
+		return List.ofAll(Files.readAllLines(
+				Paths.get(InputReader.class.getResource("/" + filename).toURI()),
+				StandardCharsets.UTF_8));
 	}
 
-	public static String readAsString(String filename)
+	public static String readAsString(String filename) throws Exception
 	{
-		try
-		{
-			return Files.readString(
-					Paths.get(InputReader.class.getResource("/" + filename).toURI()),
-					StandardCharsets.UTF_8);
-		}
-		catch (Exception e)
-		{
-			throw new RuntimeException(e);
-		}
+		return Files.readString(
+				Paths.get(InputReader.class.getResource("/" + filename).toURI()),
+				StandardCharsets.UTF_8);
 	}
 }
