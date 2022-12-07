@@ -5,15 +5,8 @@ import io.vavr.Value;
 import io.vavr.collection.List;
 import io.vavr.collection.Set;
 
-public class CommonItemFinder implements Solveable<Integer>
+public record CommonItemFinder(List<List<Item>> items) implements Solveable<Integer>
 {
-	private final List<List<Item>> items;
-
-	public CommonItemFinder(List<List<Item>> items)
-	{
-		this.items = items;
-	}
-
 	@Override
 	public Integer solvePartOne()
 	{

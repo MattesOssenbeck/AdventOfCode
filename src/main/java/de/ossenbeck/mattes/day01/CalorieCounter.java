@@ -5,15 +5,8 @@ import io.vavr.collection.List;
 
 import java.util.Comparator;
 
-public class CalorieCounter implements Solveable<Integer>
+public record CalorieCounter(List<Elf> elves) implements Solveable<Integer>
 {
-	private final List<Elf> elves;
-
-	public CalorieCounter(List<Elf> elves)
-	{
-		this.elves = elves;
-	}
-
 	@Override
 	public Integer solvePartOne()
 	{

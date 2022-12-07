@@ -4,15 +4,8 @@ import de.ossenbeck.mattes.Solveable;
 import io.vavr.Tuple2;
 import io.vavr.collection.List;
 
-public class Game implements Solveable<Integer>
+public record Game(List<Tuple2<Move, Move>> strategies) implements Solveable<Integer>
 {
-	private final List<Tuple2<Move, Move>> strategies;
-
-	public Game(List<Tuple2<Move, Move>> strategies)
-	{
-		this.strategies = strategies;
-	}
-
 	@Override
 	public Integer solvePartOne()
 	{
