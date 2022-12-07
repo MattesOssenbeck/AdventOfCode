@@ -5,12 +5,23 @@ import io.vavr.collection.List;
 
 class CalorieCounterTest extends SolveableTest<Integer>
 {
-	private static final List<Elf> ELVES = List.of(
-			new Elf(List.of(new Item(1000), new Item(2000), new Item(3000))),
-			new Elf(List.of(new Item(4000))),
-			new Elf(List.of(new Item(5000), new Item(6000))),
-			new Elf(List.of(new Item(7000), new Item(8000), new Item(9000))),
-			new Elf(List.of(new Item(10000))));
+	private static final List<Elf> ELVES = ElfMapper.map(
+			"""
+					1000
+					2000
+					3000
+					     
+					4000
+					     
+					5000
+					6000
+					     
+					7000
+					8000
+					9000
+					     
+					10000"""
+	);
 
 	public CalorieCounterTest()
 	{
