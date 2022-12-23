@@ -43,7 +43,6 @@ public class StackOfCratesMapper
 	private static Map<Integer, List<Crate>> mapStacksOfCrates(String input)
 	{
 		return Stream.of(input.split("\n"))
-				.removeFirst(s -> s.startsWith(" 1"))
 				.flatMap(StackOfCratesMapper::mapStack)
 				.toList()
 				.groupBy(Crate::startIndex);
