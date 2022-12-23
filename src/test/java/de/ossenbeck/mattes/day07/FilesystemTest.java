@@ -1,0 +1,50 @@
+package de.ossenbeck.mattes.day07;
+
+import de.ossenbeck.mattes.SolveableTest;
+import io.vavr.collection.List;
+
+class FilesystemTest extends SolveableTest<Integer>
+{
+	private static Directory rootDir = RootDirectoryMapper.map(List.of("""
+			$ cd /
+			$ ls
+			dir a
+			14848514 b.txt
+			8504156 c.dat
+			dir d
+			$ cd a
+			$ ls
+			dir e
+			29116 f
+			2557 g
+			62596 h.lst
+			$ cd e
+			$ ls
+			584 i
+			$ cd ..
+			$ cd ..
+			$ cd d
+			$ ls
+			4060174 j
+			8033020 d.log
+			5626152 d.ext
+			7214296 k
+			""".split("\n")));
+
+	public FilesystemTest()
+	{
+		super(new Filesystem(rootDir));
+	}
+
+	@Override
+	protected Integer getExpectedResultPartOne()
+	{
+		return 95_437;
+	}
+
+	@Override
+	protected Integer getExpectedResultPartTwo()
+	{
+		return 24_933_642;
+	}
+}
