@@ -1,12 +1,11 @@
 package de.ossenbeck.mattes.day05;
 
 import de.ossenbeck.mattes.Solveable;
+import io.vavr.Function1;
 import io.vavr.Tuple2;
 import io.vavr.collection.List;
 import io.vavr.collection.Map;
 import io.vavr.collection.Traversable;
-
-import java.util.function.Function;
 
 public record CargoCrane(List<CraneStep> craneSteps, Map<Integer, List<Crate>> stacksOfCrates)
 		implements Solveable<String>
@@ -14,30 +13,27 @@ public record CargoCrane(List<CraneStep> craneSteps, Map<Integer, List<Crate>> s
 	@Override
 	public String solvePartOne()
 	{
-		return performCraneSteps(index -> 0);
+		return performCraneSteps(list -> list);
 	}
 
 	@Override
 	public String solvePartTwo()
 	{
-		return performCraneSteps(Function.identity());
+		return performCraneSteps(List::reverse);
 	}
 
-	private String performCraneSteps(Function<Integer, Integer> chooseIndex)
+	private String performCraneSteps(Function1<List<Crate>, List<Crate>> orderFunction)
 	{
-		var temp = stacksOfCrates;
+		var stacksOfCrates = this.stacksOfCrates;
 		for (var step : craneSteps)
 		{
-			for (int i = step.count() - 1; i >= 0; i--)
-			{
-				var stackFrom = temp.get(step.from()).getOrNull();
-				var stackTo = temp.get(step.to()).getOrNull();
-				var crateToMove = stackFrom.get(chooseIndex.apply(i));
-				temp = temp.put(step.from(), stackFrom.remove(crateToMove));
-				temp = temp.put(step.to(), stackTo.push(crateToMove));
-			}
+			var stackFrom = stacksOfCrates.get(step.from()).get();
+			var stackTo = stacksOfCrates.get(step.to()).get();
+			var cratesToMove = stackFrom.slice(0, step.count()).transform(orderFunction);
+			stacksOfCrates = stacksOfCrates.put(step.from(), stackFrom.removeAll(cratesToMove));
+			stacksOfCrates = stacksOfCrates.put(step.to(), stackTo.pushAll(cratesToMove));
 		}
-		return temp.toStream()
+		return stacksOfCrates.toStream()
 				.sortBy(Integer::compareTo, (t) -> t._1)
 				.map(Tuple2::_2)
 				.map(Traversable::head)
