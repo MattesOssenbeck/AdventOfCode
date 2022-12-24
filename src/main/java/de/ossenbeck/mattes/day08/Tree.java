@@ -19,10 +19,4 @@ public class Tree
 	{
 		return scenicScore;
 	}
-
-	@Override
-	public String toString()
-	{
-		return "" + height;
-	}
 }
