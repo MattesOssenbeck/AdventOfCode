@@ -14,6 +14,14 @@ public record HillClimbing(List<Elevation> heightmap, Elevation start, Elevation
 		return determineShortestPath(start);
 	}
 
+	@Override
+	public Integer solvePartTwo()
+	{
+		return heightmap.filter(e -> e.height().equals(0))
+				.map(this::determineShortestPath)
+				.reduce(Integer::min);
+	}
+
 	private Integer determineShortestPath(Elevation start)
 	{
 		var visited = List.of(start);
@@ -50,13 +58,4 @@ public record HillClimbing(List<Elevation> heightmap, Elevation start, Elevation
 				.filter(e -> e.height() - elevation.height() <= 1)
 				.filter(not(visited::contains));
 	}
-
-	@Override
-	public Integer solvePartTwo()
-	{
-		return heightmap.filter(e -> e.height().equals(0))
-				.map(this::determineShortestPath)
-				.reduce(Integer::min);
-	}
-
 }
