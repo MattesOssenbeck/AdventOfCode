@@ -7,6 +7,7 @@ import io.vavr.collection.List;
 import io.vavr.collection.Map;
 import io.vavr.collection.Stream;
 
+import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -14,7 +15,7 @@ import static io.vavr.Predicates.not;
 
 public class StackOfCratesMapper
 {
-	private static final Pattern CRANE_STEP_PATTERN = Pattern.compile("move ([0-9]+) from ([0-9]+) to ([0-9]+)");
+	private static final Pattern CRANE_STEP_PATTERN = Pattern.compile("\\d+");
 
 	public static Tuple2<List<CraneStep>, Map<Integer, List<Crate>>> map(String input)
 	{
@@ -33,11 +34,11 @@ public class StackOfCratesMapper
 
 	private static Tuple3<Integer, Integer, Integer> findMatches(Matcher match)
 	{
-		match.find();
-		return Tuple.of(match.group(1), match.group(2), match.group(3))
-				.map1(Integer::parseInt)
-				.map2(Integer::parseInt)
-				.map3(Integer::parseInt);
+		return List.ofAll(match.results()
+						.map(MatchResult::group)
+						.map(Integer::parseInt))
+				.transform(l -> Tuple.of(l.get(0), l.get(1), l.get(2)));
+
 	}
 
 	private static Map<Integer, List<Crate>> mapStacksOfCrates(String input)
