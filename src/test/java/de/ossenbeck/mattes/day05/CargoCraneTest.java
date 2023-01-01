@@ -3,11 +3,10 @@ package de.ossenbeck.mattes.day05;
 import de.ossenbeck.mattes.SolveableTest;
 import io.vavr.Tuple2;
 import io.vavr.collection.List;
-import io.vavr.collection.Map;
 
 class CargoCraneTest extends SolveableTest<String>
 {
-	private static final Tuple2<List<CraneStep>, Map<Integer, List<Crate>>> STACKS = StackOfCratesMapper.map(
+	private static final Tuple2<List<CraneStep>, List<List<Crate>>> STACKS = StackOfCratesMapper.map(
 			"""
 					    [D]   \s
 					[N] [C]   \s

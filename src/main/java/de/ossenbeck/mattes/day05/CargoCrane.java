@@ -2,12 +2,10 @@ package de.ossenbeck.mattes.day05;
 
 import de.ossenbeck.mattes.Solveable;
 import io.vavr.Function1;
-import io.vavr.Tuple2;
 import io.vavr.collection.List;
-import io.vavr.collection.Map;
 import io.vavr.collection.Traversable;
 
-public record CargoCrane(List<CraneStep> craneSteps, Map<Integer, List<Crate>> stacksOfCrates)
+public record CargoCrane(List<CraneStep> craneSteps, List<List<Crate>> stacksOfCrates)
 		implements Solveable<String>
 {
 	@Override
@@ -27,17 +25,15 @@ public record CargoCrane(List<CraneStep> craneSteps, Map<Integer, List<Crate>> s
 		var stacksOfCrates = this.stacksOfCrates;
 		for (var step : craneSteps)
 		{
-			var stackFrom = stacksOfCrates.get(step.from()).get();
-			var stackTo = stacksOfCrates.get(step.to()).get();
+			var stackFrom = stacksOfCrates.get(step.from());
+			var stackTo = stacksOfCrates.get(step.to());
 			var cratesToMove = stackFrom.slice(0, step.count()).transform(orderFunction);
-			stacksOfCrates = stacksOfCrates.put(step.from(), stackFrom.removeAll(cratesToMove));
-			stacksOfCrates = stacksOfCrates.put(step.to(), stackTo.pushAll(cratesToMove));
+			stacksOfCrates = stacksOfCrates.update(step.from(), stackFrom.removeAll(cratesToMove));
+			stacksOfCrates = stacksOfCrates.update(step.to(), stackTo.pushAll(cratesToMove));
 		}
 		return stacksOfCrates.toStream()
-				.sortBy(Integer::compareTo, (t) -> t._1)
-				.map(Tuple2::_2)
 				.map(Traversable::head)
-				.map(Crate::identifier)
+				.map(Crate::getIdentifier)
 				.mkString();
 	}
 }

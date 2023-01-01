@@ -4,8 +4,6 @@ import io.vavr.Tuple;
 import io.vavr.Tuple2;
 import io.vavr.Tuple3;
 import io.vavr.collection.List;
-import io.vavr.collection.Map;
-import io.vavr.collection.Stream;
 
 import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
@@ -17,7 +15,7 @@ public class StackOfCratesMapper
 {
 	private static final Pattern CRANE_STEP_PATTERN = Pattern.compile("\\d+");
 
-	public static Tuple2<List<CraneStep>, Map<Integer, List<Crate>>> map(String input)
+	public static Tuple2<List<CraneStep>, List<List<Crate>>> map(String input)
 	{
 		var splittedInput = input.split("\n\n");
 		return Tuple.of(mapCraneSteps(splittedInput[1]), mapStacksOfCrates(splittedInput[0]));
@@ -25,11 +23,10 @@ public class StackOfCratesMapper
 
 	private static List<CraneStep> mapCraneSteps(String input)
 	{
-		return Stream.of(input.split("\n"))
+		return List.of(input.split("\n"))
 				.map(CRANE_STEP_PATTERN::matcher)
 				.map(StackOfCratesMapper::findMatches)
-				.map(t -> t.apply(CraneStep::new))
-				.toList();
+				.map(t -> t.apply(CraneStep::new));
 	}
 
 	private static Tuple3<Integer, Integer, Integer> findMatches(Matcher match)
@@ -37,24 +34,22 @@ public class StackOfCratesMapper
 		return List.ofAll(match.results()
 						.map(MatchResult::group)
 						.map(Integer::parseInt))
-				.transform(l -> Tuple.of(l.get(0), l.get(1), l.get(2)));
-
+				.transform(l -> Tuple.of(l.get(0), l.get(1) - 1, l.get(2) - 1));
 	}
 
-	private static Map<Integer, List<Crate>> mapStacksOfCrates(String input)
+	private static List<List<Crate>> mapStacksOfCrates(String input)
 	{
-		return Stream.of(input.split("\n"))
-				.flatMap(StackOfCratesMapper::mapStack)
-				.toList()
-				.groupBy(Crate::startIndex);
+		var horizontalStacks = List.of(input.split("\n"))
+				.dropRight(1)
+				.map(StackOfCratesMapper::mapStack);
+		return List.transpose(horizontalStacks)
+				.map(stacks -> stacks.filter(not(crate -> Character.isWhitespace(crate.getIdentifier()))));
 	}
 
-	private static Stream<Crate> mapStack(String crates)
+	private static List<Crate> mapStack(String crates)
 	{
 		return List.rangeBy(1, crates.length(), 4)
-				.map(i -> new Crate(crates.charAt(i), i / 4 + 1))
-				.filter(not(crate -> Character.isWhitespace(crate.identifier())))
-				.filter(not(crate -> Character.isDigit(crate.identifier())))
-				.toStream();
+				.map(crates::charAt)
+				.map(Crate::new);
 	}
 }
