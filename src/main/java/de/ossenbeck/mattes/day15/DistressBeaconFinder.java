@@ -9,7 +9,7 @@ public record DistressBeaconFinder(Set<SensorReport> sensorReports) implements S
 	public Long solvePartOne()
 	{
 		var y = sensorReports.size() == 14 ? 10 : 2_000_000;
-		var amountOfBeaconsOnY = sensorReports.map(SensorReport::getBeacon).filter(sensor -> sensor.y() == y).size();
+		var amountOfBeaconsOnY = sensorReports.map(SensorReport::getBeacon).filter(beacon -> beacon.y() == y).size();
 		return calculateCoveredRanges(y, y).getRanges(y)
 				.map(Range::size)
 				.max()
