@@ -23,9 +23,10 @@ public record DistressBeaconFinder(Set<SensorReport> sensorReports) implements S
 	{
 		var limit = sensorReports.size() == 14 ? 20 : 4_000_000;
 		return calculateCoveredRanges(0, limit).values()
-				.filter(ranges -> !ranges.exists(range -> range.start() <= 0 && range.end() >= limit))
-				.find(ranges -> ranges.exists(range -> range.y() >= 0 && range.y() <= limit))
-				.map(ranges -> ranges.tail().head())
+				.filter(ranges -> ranges.size() > 1)
+				.find(ranges -> !ranges.exists(range -> range.start() <= 0 && range.end() >= limit))
+				.map(Set::tail)
+				.map(Set::head)
 				.map(range -> (range.end() + 1) * 4_000_000L + range.y())
 				.getOrElse(0L);
 	}
