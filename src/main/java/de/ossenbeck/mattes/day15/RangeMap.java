@@ -22,24 +22,24 @@ public class RangeMap
 		return a;
 	}
 
-	public void addRange(Range range)
+	public void addRange(Range other)
 	{
-		var list = ranges.get(range.y());
+		var list = ranges.get(other.y());
 		if (list != null)
 		{
-			for (var r : list)
+			for (var range : list)
 			{
-				if (r.isMergeableWith(range))
+				if (range.isMergeableWith(other))
 				{
-					ranges.replace(range.y(), list.remove(r));
-					var start = Math.min(r.start(), range.start());
-					var end = Math.max(r.end(), range.end());
-					addRange(new Range(start, end, r.y()));
+					ranges.replace(other.y(), list.remove(range));
+					var start = Math.min(range.start(), other.start());
+					var end = Math.max(range.end(), other.end());
+					addRange(new Range(start, end, range.y()));
 					return;
 				}
 			}
 		}
-		ranges.put(range.y(), list != null ? list.add(range) : HashSet.of(range));
+		ranges.put(other.y(), list != null ? list.add(other) : HashSet.of(other));
 	}
 
 	public Set<Range> getRanges(int y)
