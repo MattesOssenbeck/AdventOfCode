@@ -5,13 +5,13 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public abstract class SolveableTest<T, U> {
-    protected abstract T getExpectedResultPartOne();
-
     protected abstract Solveable<T, U> getSutPartOne();
 
-    protected abstract T getExpectedResultPartTwo();
+    protected abstract T getExpectedResultPartOne();
 
     protected abstract Solveable<T, U> getSutPartTwo();
+
+    protected abstract T getExpectedResultPartTwo();
 
     @Test
     protected void testPartOne() {
