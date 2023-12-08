@@ -1,6 +1,8 @@
 package de.ossenbeck.mattes.day05;
 
 import java.util.List;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 public class CategoryMap {
     private final List<Range> ranges;
@@ -10,32 +12,29 @@ public class CategoryMap {
         this.ranges = ranges;
     }
 
+    public long findSeed(long number) {
+        var convertedNumber = convert(range -> range.isInDestinationRange(number), number, Range::getDestinationDifference);
+        return destination != null
+                ? destination.findSeed(convertedNumber)
+                : convertedNumber;
+    }
+
     public long findLocationNumber(long number) {
-        var convertedNumber = convert(number);
+        var convertedNumber = convert(range -> range.isInSourceRange(number), number, Range::getSourceDifference);
         return destination != null
                 ? destination.findLocationNumber(convertedNumber)
                 : convertedNumber;
     }
 
-    private long convert(long number) {
+    private long convert(Predicate<Range> filter, long number, Function<Range, Long> difference) {
         return ranges.stream()
-                .filter(range -> range.isInRange(number))
+                .filter(filter)
                 .findFirst()
-                .map(range -> number + range.getDifference())
+                .map(range -> number + difference.apply(range))
                 .orElse(number);
     }
 
     public void setDestination(CategoryMap destination) {
         this.destination = destination;
-    }
-
-    public long getLowestDifference() {
-        var lowestDifference = ranges.stream()
-                .map(Range::getLength)
-                .reduce(Long::min)
-                .orElseThrow();
-        return destination != null
-                ? Math.min(lowestDifference, destination.getLowestDifference())
-                : lowestDifference;
     }
 }

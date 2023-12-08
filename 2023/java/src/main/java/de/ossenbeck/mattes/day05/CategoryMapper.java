@@ -1,14 +1,18 @@
 package de.ossenbeck.mattes.day05;
 
-import de.ossenbeck.mattes.Tuple;
+import de.ossenbeck.mattes.Tuple3;
 
 import java.util.Arrays;
 import java.util.List;
 
 public class CategoryMapper {
-    public static Tuple<List<Long>, CategoryMap> map(String input) {
+    public static Tuple3<List<Long>, CategoryMap, CategoryMap> map(String input) {
         var data = input.split(System.lineSeparator() + System.lineSeparator());
         var seeds = mapNumbers(data[0].split(": ")[1]);
+        return new Tuple3<>(seeds, mapCategoryMap(data), mapCategoryMapReversed(data));
+    }
+
+    private static CategoryMap mapCategoryMap(String[] data) {
         var categoryMaps = Arrays.stream(data)
                 .skip(1)
                 .map(CategoryMapper::mapRanges)
@@ -20,7 +24,22 @@ public class CategoryMapper {
             tmp.setDestination(categoryMaps.get(i));
             tmp = categoryMaps.get(i);
         }
-        return new Tuple<>(seeds, categoryMap);
+        return categoryMap;
+    }
+
+    private static CategoryMap mapCategoryMapReversed(String[] data) {
+        var categoryMaps = Arrays.stream(data)
+                .skip(1)
+                .map(CategoryMapper::mapRanges)
+                .map(CategoryMap::new)
+                .toList();
+        var categoryMapReversed = categoryMaps.get(categoryMaps.size() - 1);
+        var tmp = categoryMapReversed;
+        for (var i = categoryMaps.size() - 2; i >= 0; i--) {
+            tmp.setDestination(categoryMaps.get(i));
+            tmp = categoryMaps.get(i);
+        }
+        return categoryMapReversed;
     }
 
     private static List<Range> mapRanges(String category) {
