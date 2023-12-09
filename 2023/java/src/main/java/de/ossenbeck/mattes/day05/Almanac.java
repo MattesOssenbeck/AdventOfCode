@@ -3,42 +3,36 @@ package de.ossenbeck.mattes.day05;
 import de.ossenbeck.mattes.Solveable;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.stream.IntStream;
+import java.util.stream.LongStream;
 
 public class Almanac implements Solveable<Long, Long> {
     private final List<Long> seeds;
-    private final CategoryMap seedToLocation;
-    private final CategoryMap LocationToSeed;
+    private final CategoryMap seedToLocationMap;
+    private final CategoryMap locationToSeedMap;
 
     public Almanac(String input) {
-        var data = CategoryMapper.map(input);
-        this.seeds = data.first();
-        this.seedToLocation = data.second();
-        this.LocationToSeed = data.third();
+        var mapResult = AlmanacMapper.map(input);
+        this.seeds = mapResult.seeds();
+        this.seedToLocationMap = mapResult.seedToLocationMap();
+        this.locationToSeedMap = mapResult.locationToSeedMap();
     }
 
     @Override
     public Long solvePartOne() {
         return seeds.stream()
-                .map(seedToLocation::findLocationNumber)
-                .reduce(Long::min)
-                .orElseThrow();
+                .map(seedToLocationMap::findLocationNumber)
+                .reduce(Long.MAX_VALUE, Long::min);
     }
 
     @Override
     public Long solvePartTwo() {
         var seedRanges = mapToSeedRanges(seeds);
-        long maxSeed = seeds.stream()
-                .reduce(Long::max)
+        var maxSeed = seeds.stream().reduce(0L, Long::max);
+        return LongStream.rangeClosed(0, maxSeed)
+                .filter(locationNumber -> correspondsToValidSeed(seedRanges, locationNumber))
+                .findFirst()
                 .orElseThrow();
-        for (long i = 0; i <= maxSeed; i++) {
-            var seed = LocationToSeed.findSeed(i);
-            if (seedRanges.stream().anyMatch(seedRange -> seedRange.isInRange(seed))) {
-                return i;
-            }
-        }
-        throw new NoSuchElementException();
     }
 
     private List<SeedRange> mapToSeedRanges(List<Long> seeds) {
@@ -50,5 +44,10 @@ public class Almanac implements Solveable<Long, Long> {
 
     private SeedRange mapToSeedRange(long begin, long length) {
         return new SeedRange(begin, begin + length - 1);
+    }
+
+    private boolean correspondsToValidSeed(List<SeedRange> seedRanges, long locationNumber) {
+        var seed = locationToSeedMap.findSeed(locationNumber);
+        return seedRanges.stream().anyMatch(seedRange -> seedRange.isInRange(seed));
     }
 }
