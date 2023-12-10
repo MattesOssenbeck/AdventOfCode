@@ -1,33 +1,19 @@
 package de.ossenbeck.mattes.day05;
 
 public class Range {
-    private final long destination;
-    private final long source;
-    private final long length;
+    private final long start;
+    private final long end;
 
-    public Range(long destination, long source, long length) {
-        this.destination = destination;
-        this.source = source;
-        this.length = length;
+    public Range(long start, long end) {
+        this.start = start;
+        this.end = end;
     }
 
-    public boolean isInSourceRange(long number) {
-        return number >= source && number <= source + length - 1;
+    public long start() {
+        return start;
     }
 
-    public boolean isInDestinationRange(long number) {
-        return number >= destination && number <= destination + length - 1;
-    }
-
-    public long getSourceDifference() {
-        return destination - source;
-    }
-
-    public long getDestinationDifference() {
-        return source - destination;
-    }
-
-    public long getSource() {
-        return source;
+    public long end() {
+        return end;
     }
 }

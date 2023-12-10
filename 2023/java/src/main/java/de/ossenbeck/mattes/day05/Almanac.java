@@ -2,52 +2,53 @@ package de.ossenbeck.mattes.day05;
 
 import de.ossenbeck.mattes.Solveable;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.IntStream;
-import java.util.stream.LongStream;
 
 public class Almanac implements Solveable<Long, Long> {
     private final List<Long> seeds;
     private final CategoryMap seedToLocationMap;
-    private final CategoryMap locationToSeedMap;
 
     public Almanac(String input) {
-        var mapResult = AlmanacMapper.map(input);
-        this.seeds = mapResult.seeds();
-        this.seedToLocationMap = mapResult.seedToLocationMap();
-        this.locationToSeedMap = mapResult.locationToSeedMap();
+        var mappingResult = AlmanacMapper.map(input);
+        this.seeds = mappingResult.seeds();
+        this.seedToLocationMap = mappingResult.seedToLocationMap();
     }
 
     @Override
     public Long solvePartOne() {
-        return seeds.stream()
-                .map(seedToLocationMap::findLocationNumber)
-                .reduce(Long.MAX_VALUE, Long::min);
+        return calculateLowestLocation(mapToRanges(seeds));
     }
 
     @Override
     public Long solvePartTwo() {
-        var seedRanges = mapToSeedRanges(seeds);
-        var maxSeed = seeds.stream().reduce(0L, Long::max);
-        return LongStream.rangeClosed(0, maxSeed)
-                .filter(locationNumber -> correspondsToValidSeed(seedRanges, locationNumber))
-                .findFirst()
-                .orElseThrow();
+        return calculateLowestLocation(mapPairsToRanges(seeds));
     }
 
-    private List<SeedRange> mapToSeedRanges(List<Long> seeds) {
-        return IntStream.range(0, seeds.size() - 1)
-                .filter(i -> i % 2 == 0)
-                .mapToObj(i -> mapToSeedRange(seeds.get(i), seeds.get(i + 1)))
+    private long calculateLowestLocation(List<Range> seedRanges) {
+        return seedRanges.stream()
+                .map(List::of)
+                .map(seedToLocationMap::findLocation)
+                .flatMap(Collection::stream)
+                .map(Range::start)
+                .reduce(Long.MAX_VALUE, Long::min);
+    }
+
+    private List<Range> mapToRanges(List<Long> seeds) {
+        return seeds.stream()
+                .map(seed -> new Range(seed, seed))
                 .toList();
     }
 
-    private SeedRange mapToSeedRange(long begin, long length) {
-        return new SeedRange(begin, begin + length - 1);
+    private List<Range> mapPairsToRanges(List<Long> seeds) {
+        return IntStream.range(0, seeds.size() - 1)
+                .filter(i -> i % 2 == 0)
+                .mapToObj(i -> mapToRange(seeds.get(i), seeds.get(i + 1)))
+                .toList();
     }
 
-    private boolean correspondsToValidSeed(List<SeedRange> seedRanges, long locationNumber) {
-        var seed = locationToSeedMap.findSeed(locationNumber);
-        return seedRanges.stream().anyMatch(seedRange -> seedRange.isInRange(seed));
+    private Range mapToRange(long start, long length) {
+        return new Range(start, start + length - 1);
     }
 }

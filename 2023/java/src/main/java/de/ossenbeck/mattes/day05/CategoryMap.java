@@ -1,41 +1,70 @@
 package de.ossenbeck.mattes.day05;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
-import java.util.function.BiFunction;
-import java.util.function.Function;
+import java.util.Optional;
 
 public class CategoryMap {
-    private final List<Range> ranges;
+    private final List<CategoryMapRange> ranges;
     private CategoryMap destination;
-    private CategoryMap source;
 
-    public CategoryMap(List<Range> ranges) {
+    public CategoryMap(List<CategoryMapRange> ranges) {
         this.ranges = ranges;
     }
 
-    public long findLocationNumber(long number) {
-        var convertedNumber = convert(number, Range::isInSourceRange, Range::getSourceDifference);
-        return destination != null ? destination.findLocationNumber(convertedNumber) : convertedNumber;
+    public List<Range> findLocation(List<Range> ranges) {
+        var convR = ranges.stream()
+                .map(this::convert)
+                .flatMap(Collection::stream)
+                .toList();
+        return Optional.ofNullable(destination)
+                .map(categoryMap -> categoryMap.findLocation(convR))
+                .orElse(convR);
     }
 
-    public long findSeed(long number) {
-        var convertedNumber = convert(number, Range::isInDestinationRange, Range::getDestinationDifference);
-        return source != null ? source.findSeed(convertedNumber) : convertedNumber;
-    }
-
-    private long convert(long number, BiFunction<Range, Long, Boolean> filter, Function<Range, Long> difference) {
-        return ranges.stream()
-                .filter(range -> filter.apply(range, number))
-                .findFirst()
-                .map(range -> number + difference.apply(range))
-                .orElse(number);
+    private List<Range> convert(Range range) {
+        var newRanges = new ArrayList<Range>();
+        var currRange = range;
+        for (var mapRange : ranges) {
+            if (mapRange.end() < currRange.start()) {
+                continue;
+            }
+            if (mapRange.start() > currRange.end()) {
+                break;
+            }
+            if (mapRange.start() <= currRange.start() && mapRange.end() >= currRange.end()) {
+                newRanges.add(new Range(currRange.start() + mapRange.offset(), currRange.end() + mapRange.offset()));
+                currRange = null;
+                break;
+            }
+            if (mapRange.start() <= currRange.start() && mapRange.end() <= currRange.end()) {
+                newRanges.add(new Range(currRange.start() + mapRange.offset(), mapRange.end() + mapRange.offset()));
+                currRange = new Range(mapRange.end() + 1, currRange.end());
+                continue;
+            }
+            if (mapRange.start() > currRange.start() && mapRange.start() < currRange.end()) {
+                newRanges.add(new Range(currRange.start(), mapRange.start() - 1));
+                currRange = new Range(mapRange.start(), currRange.end());
+            }
+            if (mapRange.start() == currRange.start() && mapRange.end() < currRange.end()) {
+                newRanges.add(new Range(mapRange.start() + mapRange.offset(), mapRange.end() + mapRange.offset()));
+                currRange = new Range(mapRange.end() + 1, currRange.end());
+                continue;
+            }
+            if (mapRange.start() <= currRange.end() && mapRange.end() > currRange.end()) {
+                newRanges.add(new Range(mapRange.start() + mapRange.offset(), currRange.end() + mapRange.offset()));
+                currRange = new Range(currRange.start(), mapRange.start() - 1);
+                break;
+            }
+        }
+        if (currRange != null && currRange.end() - currRange.start() >= 0) {
+            newRanges.add(currRange);
+        }
+        return newRanges;
     }
 
     public void setDestination(CategoryMap destination) {
         this.destination = destination;
-    }
-
-    public void setSource(CategoryMap source) {
-        this.source = source;
     }
 }
