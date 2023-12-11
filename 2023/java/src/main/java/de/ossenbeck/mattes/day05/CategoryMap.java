@@ -23,45 +23,42 @@ public class CategoryMap {
                 .orElse(convR);
     }
 
-    private List<Range> convert(Range range) {
-        var newRanges = new ArrayList<Range>();
-        var currRange = range;
+    private List<Range> convert(Range rangeToConvert) {
+        var convertedRanges = new ArrayList<Range>();
+        var range = rangeToConvert;
         for (var mapRange : ranges) {
-            if (mapRange.end() < currRange.start()) {
+            if (mapRange.isLeftOf(range)) {
                 continue;
             }
-            if (mapRange.start() > currRange.end()) {
+            if (mapRange.isRightOf(range)) {
                 break;
             }
-            if (mapRange.start() <= currRange.start() && mapRange.end() >= currRange.end()) {
-                newRanges.add(new Range(currRange.start() + mapRange.offset(), currRange.end() + mapRange.offset()));
-                currRange = null;
+            if (mapRange.contains(range)) {
+                convertedRanges.add(new Range(range.start() + mapRange.offset(), range.end() + mapRange.offset()));
+                range = null;
                 break;
             }
-            if (mapRange.start() <= currRange.start() && mapRange.end() <= currRange.end()) {
-                newRanges.add(new Range(currRange.start() + mapRange.offset(), mapRange.end() + mapRange.offset()));
-                currRange = new Range(mapRange.end() + 1, currRange.end());
+            if (range.contains(mapRange)) {
+                convertedRanges.add(new Range(range.start(), mapRange.start() - 1));
+                convertedRanges.add(new Range(mapRange.start() + mapRange.offset(), mapRange.end() + mapRange.offset()));
+                range = new Range(mapRange.end() + 1, range.end());
                 continue;
             }
-            if (mapRange.start() > currRange.start() && mapRange.start() < currRange.end()) {
-                newRanges.add(new Range(currRange.start(), mapRange.start() - 1));
-                currRange = new Range(mapRange.start(), currRange.end());
-            }
-            if (mapRange.start() == currRange.start() && mapRange.end() < currRange.end()) {
-                newRanges.add(new Range(mapRange.start() + mapRange.offset(), mapRange.end() + mapRange.offset()));
-                currRange = new Range(mapRange.end() + 1, currRange.end());
+            if (mapRange.intersectsLeftSideOf(range)) {
+                convertedRanges.add(new Range(range.start() + mapRange.offset(), mapRange.end() + mapRange.offset()));
+                range = new Range(mapRange.end() + 1, range.end());
                 continue;
             }
-            if (mapRange.start() <= currRange.end() && mapRange.end() > currRange.end()) {
-                newRanges.add(new Range(mapRange.start() + mapRange.offset(), currRange.end() + mapRange.offset()));
-                currRange = new Range(currRange.start(), mapRange.start() - 1);
+            if (mapRange.intersectsRightSideOf(range)) {
+                convertedRanges.add(new Range(mapRange.start() + mapRange.offset(), range.end() + mapRange.offset()));
+                range = new Range(range.start(), mapRange.start() - 1);
                 break;
             }
         }
-        if (currRange != null && currRange.end() - currRange.start() >= 0) {
-            newRanges.add(currRange);
+        if (range != null && range.length() >= 0) {
+            convertedRanges.add(range);
         }
-        return newRanges;
+        return convertedRanges;
     }
 
     public void setDestination(CategoryMap destination) {
