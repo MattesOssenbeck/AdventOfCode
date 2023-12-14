@@ -24,16 +24,14 @@ public class EngineSchematic implements Solveable<Integer, Integer> {
                 .filter(not(List::isEmpty))
                 .flatMap(List::stream)
                 .map(Number::value)
-                .reduce(Integer::sum)
-                .orElseThrow();
+                .reduce(0, Integer::sum);
     }
 
     @Override
     public Integer solvePartTwo() {
         return symbols.stream()
                 .map(Symbol::getGearRatio)
-                .reduce(Integer::sum)
-                .orElseThrow();
+                .reduce(0, Integer::sum);
     }
 
     private void checkCollisions() {

@@ -22,16 +22,14 @@ public class ScratchcardChecker implements Solveable<Integer, Integer> {
         return scratchcards.stream()
                 .map(Scratchcard::getNumberOfMatchingNumbers)
                 .map(number -> (int) Math.pow(2.0, (double) number - 1))
-                .reduce(Integer::sum)
-                .orElseThrow();
+                .reduce(0, Integer::sum);
     }
 
     @Override
     public Integer solvePartTwo() {
         scratchcards.forEach(this::checkScratchcards);
         return copies.values().stream()
-                .reduce(Integer::sum)
-                .orElseThrow();
+                .reduce(0, Integer::sum);
     }
 
     private void checkScratchcards(Scratchcard scratchcard) {

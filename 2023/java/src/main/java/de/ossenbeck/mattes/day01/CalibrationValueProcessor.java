@@ -39,8 +39,7 @@ public class CalibrationValueProcessor implements Solveable<Integer, Integer> {
     private Integer recoverCalibrationValues(Stream<String> input) {
         return input.map(line -> findLeftmostDigit(line) + findRightmostDigit(line))
                 .map(Integer::parseInt)
-                .reduce(Integer::sum)
-                .orElseThrow();
+                .reduce(0, Integer::sum);
     }
 
     private String findLeftmostDigit(String line) {

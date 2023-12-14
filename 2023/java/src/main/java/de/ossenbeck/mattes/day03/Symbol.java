@@ -36,9 +36,9 @@ public class Symbol {
 
     public int getGearRatio() {
         return adjacentNumbers.stream()
+                .filter(__ -> isGear())
                 .map(Number::value)
                 .reduce(Math::multiplyExact)
-                .filter(__ -> isGear())
                 .orElse(0);
     }
 }

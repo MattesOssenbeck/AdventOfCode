@@ -19,15 +19,13 @@ public class CubeConundrum implements Solveable<Integer, Integer> {
         return games.stream()
                 .filter(Game::isPossible)
                 .map(Game::id)
-                .reduce(Integer::sum)
-                .orElseThrow();
+                .reduce(0, Integer::sum);
     }
 
     @Override
     public Integer solvePartTwo() {
         return games.stream()
                 .map(g -> g.highestAmountOf(Color.RED) * g.highestAmountOf(Color.GREEN) * g.highestAmountOf(Color.BLUE))
-                .reduce(Integer::sum)
-                .orElseThrow();
+                .reduce(0, Integer::sum);
     }
 }
