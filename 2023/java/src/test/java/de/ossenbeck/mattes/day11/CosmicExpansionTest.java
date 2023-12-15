@@ -4,11 +4,11 @@ import de.ossenbeck.mattes.InputReader;
 import de.ossenbeck.mattes.Solveable;
 import de.ossenbeck.mattes.SolveableTest;
 
-class GalaxyAnalyzerTest extends SolveableTest<Long, Long> {
+class CosmicExpansionTest extends SolveableTest<Long, Long> {
 
     @Override
     protected Solveable<Long, Long> getSutPartOne() {
-        return new GalaxyAnalyzer(InputReader.readAsList("test", "11", ""));
+        return new CosmicExpansion(InputReader.readAsList("test", "11", ""));
     }
 
     @Override
@@ -18,7 +18,7 @@ class GalaxyAnalyzerTest extends SolveableTest<Long, Long> {
 
     @Override
     protected Solveable<Long, Long> getSutPartTwo() {
-        return new GalaxyAnalyzer(InputReader.readAsList("test", "11", ""));
+        return new CosmicExpansion(InputReader.readAsList("test", "11", ""));
     }
 
     @Override

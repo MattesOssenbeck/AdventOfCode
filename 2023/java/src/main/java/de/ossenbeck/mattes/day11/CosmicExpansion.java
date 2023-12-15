@@ -6,11 +6,11 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.IntStream;
 
-public class GalaxyAnalyzer implements Solveable<Long, Long> {
+public class CosmicExpansion implements Solveable<Long, Long> {
     private final Universe universe;
 
 
-    public GalaxyAnalyzer(List<String> input) {
+    public CosmicExpansion(List<String> input) {
         this.universe = new Universe(input);
     }
 

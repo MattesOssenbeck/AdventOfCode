@@ -4,7 +4,7 @@ import de.ossenbeck.mattes.InputReader;
 
 public class Main {
     public static void main(String[] args) {
-        var puzzle = new GalaxyAnalyzer(InputReader.readAsList("main", "11", ""));
+        var puzzle = new CosmicExpansion(InputReader.readAsList("main", "11", ""));
         puzzle.printParts();
     }
 }
