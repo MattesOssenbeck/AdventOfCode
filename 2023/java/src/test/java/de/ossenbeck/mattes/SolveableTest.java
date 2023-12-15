@@ -11,7 +11,7 @@ public abstract class SolveableTest<T, U> {
 
     protected abstract Solveable<T, U> getSutPartTwo();
 
-    protected abstract T getExpectedResultPartTwo();
+    protected abstract U getExpectedResultPartTwo();
 
     @Test
     protected void testPartOne() {
