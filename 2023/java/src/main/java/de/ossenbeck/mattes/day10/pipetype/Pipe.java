@@ -1,4 +1,7 @@
-package de.ossenbeck.mattes.day10;
+package de.ossenbeck.mattes.day10.pipetype;
+
+import de.ossenbeck.mattes.day10.Coordinate;
+import de.ossenbeck.mattes.day10.Direction;
 
 import java.util.stream.Stream;
 
@@ -18,7 +21,7 @@ public abstract sealed class Pipe permits StartingPipe, NorthAndEastPipe, NorthA
         return new Coordinate(coordinate().x() + to.x(), coordinate().y() + to.y());
     }
 
-    protected abstract Direction determineDirectionToGoIn(Direction from);
+    public abstract Direction determineDirectionToGoIn(Direction from);
 
     protected abstract boolean canPassThrough(Direction from);
 
@@ -41,6 +44,11 @@ public abstract sealed class Pipe permits StartingPipe, NorthAndEastPipe, NorthA
             case StartingPipe.identifier -> new StartingPipe(coordinate);
             default -> throw new IllegalArgumentException("Unknown type");
         };
+    }
+
+    public static Pipe toValidPipe(Pipe unkownPipe, Pipe a, Pipe b) {
+        return unkownPipe.identifier() != StartingPipe.identifier
+                ? unkownPipe : Pipe.determinePipeWhichConnectsTo(unkownPipe.coordinate(), a, b);
     }
 
     public static Pipe determinePipeWhichConnectsTo(Coordinate position, Pipe a, Pipe b) {

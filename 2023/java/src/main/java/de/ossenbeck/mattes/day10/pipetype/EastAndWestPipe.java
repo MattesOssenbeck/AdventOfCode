@@ -1,4 +1,7 @@
-package de.ossenbeck.mattes.day10;
+package de.ossenbeck.mattes.day10.pipetype;
+
+import de.ossenbeck.mattes.day10.Coordinate;
+import de.ossenbeck.mattes.day10.Direction;
 
 public final class EastAndWestPipe extends Pipe {
     public static final char identifier = '-';
