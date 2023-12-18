@@ -1,7 +1,7 @@
 package de.ossenbeck.mattes.day12;
 
 import de.ossenbeck.mattes.Solveable;
-import de.ossenbeck.mattes.Tuple;
+import de.ossenbeck.mattes.util.Tuple;
 
 import java.util.*;
 import java.util.stream.IntStream;

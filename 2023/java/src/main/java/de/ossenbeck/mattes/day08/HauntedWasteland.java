@@ -1,7 +1,7 @@
 package de.ossenbeck.mattes.day08;
 
 import de.ossenbeck.mattes.Solveable;
-import de.ossenbeck.mattes.Util;
+import de.ossenbeck.mattes.util.Util;
 
 import java.util.List;
 import java.util.Map;

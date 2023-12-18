@@ -8,7 +8,7 @@ import java.util.Optional;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import static de.ossenbeck.mattes.Util.zip;
+import static de.ossenbeck.mattes.util.Util.zip;
 
 public class PointOfIncidence implements Solveable<Integer, Integer> {
 

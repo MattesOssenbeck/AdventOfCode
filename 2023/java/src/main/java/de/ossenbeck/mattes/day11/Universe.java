@@ -3,7 +3,7 @@ package de.ossenbeck.mattes.day11;
 import java.util.List;
 import java.util.stream.IntStream;
 
-import static de.ossenbeck.mattes.Util.zip;
+import static de.ossenbeck.mattes.util.Util.zip;
 
 public class Universe {
     private final static char GALAXY = '#';

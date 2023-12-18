@@ -1,4 +1,4 @@
-package de.ossenbeck.mattes;
+package de.ossenbeck.mattes.util;
 
 import java.util.List;
 import java.util.stream.Collectors;

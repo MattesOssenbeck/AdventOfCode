@@ -2,6 +2,8 @@ package de.ossenbeck.mattes.day10;
 
 import de.ossenbeck.mattes.Solveable;
 import de.ossenbeck.mattes.day10.pipetype.*;
+import de.ossenbeck.mattes.util.Coordinate;
+import de.ossenbeck.mattes.util.Direction;
 
 import java.util.ArrayList;
 import java.util.HashMap;

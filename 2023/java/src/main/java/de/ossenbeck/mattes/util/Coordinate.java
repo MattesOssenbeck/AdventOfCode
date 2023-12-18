@@ -1,4 +1,4 @@
-package de.ossenbeck.mattes.day10;
+package de.ossenbeck.mattes.util;
 
 import java.util.Collection;
 

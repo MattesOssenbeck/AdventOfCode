@@ -1,4 +1,4 @@
-package de.ossenbeck.mattes.day10;
+package de.ossenbeck.mattes.util;
 
 public enum Direction {
     NORTH(0, -1),

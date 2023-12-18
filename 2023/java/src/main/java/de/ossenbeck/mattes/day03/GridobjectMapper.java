@@ -1,6 +1,6 @@
 package de.ossenbeck.mattes.day03;
 
-import de.ossenbeck.mattes.Tuple;
+import de.ossenbeck.mattes.util.Tuple;
 
 import java.util.ArrayList;
 import java.util.List;
