@@ -8,7 +8,7 @@ class HotSpringsTest extends SolveableTest<Long, Long> {
 
     @Override
     protected Solveable<Long, Long> getSutPartOne() {
-        return new HotSprings(InputReader.readAsList("test", "12", ""));
+        return new HotSprings(InputReader.readAsList("test", "12"));
     }
 
     @Override
@@ -18,7 +18,7 @@ class HotSpringsTest extends SolveableTest<Long, Long> {
 
     @Override
     protected Solveable<Long, Long> getSutPartTwo() {
-        return new HotSprings(InputReader.readAsList("test", "12", ""));
+        return new HotSprings(InputReader.readAsList("test", "12"));
     }
 
     @Override

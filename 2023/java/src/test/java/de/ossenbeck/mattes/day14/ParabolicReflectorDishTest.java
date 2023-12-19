@@ -8,7 +8,7 @@ class ParabolicReflectorDishTest extends SolveableTest<Integer, Integer> {
 
     @Override
     protected Solveable<Integer, Integer> getSutPartOne() {
-        return new ParabolicReflectorDish(InputReader.readAsList("test", "14", ""));
+        return new ParabolicReflectorDish(InputReader.readAsList("test", "14"));
     }
 
     @Override
@@ -18,7 +18,7 @@ class ParabolicReflectorDishTest extends SolveableTest<Integer, Integer> {
 
     @Override
     protected Solveable<Integer, Integer> getSutPartTwo() {
-        return new ParabolicReflectorDish(InputReader.readAsList("test", "14", ""));
+        return new ParabolicReflectorDish(InputReader.readAsList("test", "14"));
     }
 
     @Override

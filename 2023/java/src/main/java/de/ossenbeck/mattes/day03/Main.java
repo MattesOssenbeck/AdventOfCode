@@ -4,7 +4,7 @@ import de.ossenbeck.mattes.InputReader;
 
 public class Main {
     public static void main(String[] args) {
-        var puzzle = new EngineSchematic(InputReader.readAsList("main", "03", ""));
+        var puzzle = new EngineSchematic(InputReader.readAsList("main", "03"));
         puzzle.printParts();
     }
 }

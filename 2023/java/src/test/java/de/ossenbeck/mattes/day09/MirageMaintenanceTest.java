@@ -8,7 +8,7 @@ import de.ossenbeck.mattes.SolveableTest;
 class MirageMaintenanceTest extends SolveableTest<Integer, Integer> {
     @Override
     protected Solveable<Integer, Integer> getSutPartOne() {
-        return new MirageMaintenance(InputReader.readAsList("test", "09", ""));
+        return new MirageMaintenance(InputReader.readAsList("test", "09"));
     }
 
     @Override
@@ -18,7 +18,7 @@ class MirageMaintenanceTest extends SolveableTest<Integer, Integer> {
 
     @Override
     protected Solveable<Integer, Integer> getSutPartTwo() {
-        return new MirageMaintenance(InputReader.readAsList("test", "09", ""));
+        return new MirageMaintenance(InputReader.readAsList("test", "09"));
     }
 
     @Override

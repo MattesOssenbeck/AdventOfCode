@@ -8,7 +8,7 @@ class ScratchcardCheckerTest extends SolveableTest<Integer, Integer> {
 
     @Override
     protected Solveable<Integer, Integer> getSutPartOne() {
-        return new ScratchcardChecker(InputReader.readAsList("test", "04", ""));
+        return new ScratchcardChecker(InputReader.readAsList("test", "04"));
     }
 
     @Override
@@ -18,7 +18,7 @@ class ScratchcardCheckerTest extends SolveableTest<Integer, Integer> {
 
     @Override
     protected Solveable<Integer, Integer> getSutPartTwo() {
-        return new ScratchcardChecker(InputReader.readAsList("test", "04", ""));
+        return new ScratchcardChecker(InputReader.readAsList("test", "04"));
     }
 
     @Override

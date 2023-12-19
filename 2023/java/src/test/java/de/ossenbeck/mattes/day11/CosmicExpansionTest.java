@@ -8,7 +8,7 @@ class CosmicExpansionTest extends SolveableTest<Long, Long> {
 
     @Override
     protected Solveable<Long, Long> getSutPartOne() {
-        return new CosmicExpansion(InputReader.readAsList("test", "11", ""));
+        return new CosmicExpansion(InputReader.readAsList("test", "11"));
     }
 
     @Override
@@ -18,7 +18,7 @@ class CosmicExpansionTest extends SolveableTest<Long, Long> {
 
     @Override
     protected Solveable<Long, Long> getSutPartTwo() {
-        return new CosmicExpansion(InputReader.readAsList("test", "11", ""));
+        return new CosmicExpansion(InputReader.readAsList("test", "11"));
     }
 
     @Override

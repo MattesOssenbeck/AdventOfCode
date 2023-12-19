@@ -8,7 +8,7 @@ class PointOfIncidenceTest extends SolveableTest<Integer, Integer> {
 
     @Override
     protected Solveable<Integer, Integer> getSutPartOne() {
-        return new PointOfIncidence(InputReader.readAsString("test", "13", ""));
+        return new PointOfIncidence(InputReader.readAsString("test", "13"));
     }
 
     @Override
@@ -18,7 +18,7 @@ class PointOfIncidenceTest extends SolveableTest<Integer, Integer> {
 
     @Override
     protected Solveable<Integer, Integer> getSutPartTwo() {
-        return new PointOfIncidence(InputReader.readAsString("test", "13", ""));
+        return new PointOfIncidence(InputReader.readAsString("test", "13"));
     }
 
     @Override

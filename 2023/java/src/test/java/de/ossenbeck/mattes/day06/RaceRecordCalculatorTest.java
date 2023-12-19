@@ -8,7 +8,7 @@ class RaceRecordCalculatorTest extends SolveableTest<Long, Long> {
 
     @Override
     protected Solveable<Long, Long> getSutPartOne() {
-        return new RaceRecordCalculator(InputReader.readAsString("test", "06", ""));
+        return new RaceRecordCalculator(InputReader.readAsString("test", "06"));
     }
 
     @Override
@@ -18,7 +18,7 @@ class RaceRecordCalculatorTest extends SolveableTest<Long, Long> {
 
     @Override
     protected Solveable<Long, Long> getSutPartTwo() {
-        return new RaceRecordCalculator(InputReader.readAsString("test", "06", ""));
+        return new RaceRecordCalculator(InputReader.readAsString("test", "06"));
     }
 
     @Override

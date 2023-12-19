@@ -8,7 +8,7 @@ class CamelCardGameTest extends SolveableTest<Integer, Integer> {
 
     @Override
     protected Solveable<Integer, Integer> getSutPartOne() {
-        return new CamelCardGame(InputReader.readAsList("test", "07", ""));
+        return new CamelCardGame(InputReader.readAsList("test", "07"));
     }
 
     @Override
@@ -18,7 +18,7 @@ class CamelCardGameTest extends SolveableTest<Integer, Integer> {
 
     @Override
     protected Solveable<Integer, Integer> getSutPartTwo() {
-        return new CamelCardGame(InputReader.readAsList("test", "07", ""));
+        return new CamelCardGame(InputReader.readAsList("test", "07"));
     }
 
     @Override

@@ -8,7 +8,7 @@ class EngineSchematicTest extends SolveableTest<Integer, Integer> {
 
     @Override
     protected Solveable<Integer, Integer> getSutPartOne() {
-        return new EngineSchematic(InputReader.readAsList("test", "03", ""));
+        return new EngineSchematic(InputReader.readAsList("test", "03"));
     }
 
     @Override
@@ -18,7 +18,7 @@ class EngineSchematicTest extends SolveableTest<Integer, Integer> {
 
     @Override
     protected Solveable<Integer, Integer> getSutPartTwo() {
-        return new EngineSchematic(InputReader.readAsList("test", "03", ""));
+        return new EngineSchematic(InputReader.readAsList("test", "03"));
     }
 
     @Override

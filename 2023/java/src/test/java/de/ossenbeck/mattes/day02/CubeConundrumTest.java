@@ -7,7 +7,7 @@ import de.ossenbeck.mattes.SolveableTest;
 class CubeConundrumTest extends SolveableTest<Integer, Integer> {
     @Override
     protected Solveable<Integer, Integer> getSutPartOne() {
-        return new CubeConundrum(InputReader.readAsList("test", "02", ""));
+        return new CubeConundrum(InputReader.readAsList("test", "02"));
     }
 
     @Override
@@ -17,7 +17,7 @@ class CubeConundrumTest extends SolveableTest<Integer, Integer> {
 
     @Override
     protected Solveable<Integer, Integer> getSutPartTwo() {
-        return new CubeConundrum(InputReader.readAsList("test", "02", ""));
+        return new CubeConundrum(InputReader.readAsList("test", "02"));
     }
 
     @Override
