@@ -29,4 +29,11 @@ public class Util {
     public static long gcd(long a, long b) {
         return b == 0 ? a : gcd(b, a % b);
     }
+
+    //Gauß'sche Trapezformel (engl. Shoelace formula)
+    public static long area(List<Coordinate> c) {
+        return Math.abs(IntStream.range(0, c.size())
+                .mapToLong(i -> (long) c.get(i).x() * (long) (c.get((i + 1) % c.size()).y() - c.get((i - 1 + c.size()) % c.size()).y()))
+                .sum()) / 2;
+    }
 }
