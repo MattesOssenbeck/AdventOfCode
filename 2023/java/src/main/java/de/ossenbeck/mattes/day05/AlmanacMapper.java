@@ -1,5 +1,7 @@
 package de.ossenbeck.mattes.day05;
 
+import de.ossenbeck.mattes.util.Range;
+
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;

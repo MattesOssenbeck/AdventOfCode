@@ -1,8 +1,9 @@
 package de.ossenbeck.mattes.day05;
 
 import de.ossenbeck.mattes.Solveable;
+import de.ossenbeck.mattes.util.Range;
+import de.ossenbeck.mattes.util.Ranges;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -28,10 +29,9 @@ public class Almanac implements Solveable<Long, Long> {
 
     private long calculateLowestLocation(List<Range> seedRanges) {
         return seedRanges.stream()
-                .map(List::of)
+                .map(Ranges::new)
                 .map(seedToLocationMap::findLocation)
-                .flatMap(Collection::stream)
-                .map(Range::start)
+                .map(Ranges::min)
                 .reduce(Long.MAX_VALUE, Long::min);
     }
 

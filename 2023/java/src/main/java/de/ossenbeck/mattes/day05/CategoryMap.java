@@ -1,7 +1,9 @@
 package de.ossenbeck.mattes.day05;
 
+import de.ossenbeck.mattes.util.Range;
+import de.ossenbeck.mattes.util.Ranges;
+
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,11 +15,10 @@ public class CategoryMap {
         this.ranges = ranges;
     }
 
-    public List<Range> findLocation(List<Range> ranges) {
-        var convR = ranges.stream()
+    public Ranges findLocation(Ranges ranges) {
+        var convR = ranges.values().stream()
                 .map(this::convert)
-                .flatMap(Collection::stream)
-                .toList();
+                .reduce(new Ranges(), Ranges::merge, Ranges::merge);
         return Optional.ofNullable(destination)
                 .map(categoryMap -> categoryMap.findLocation(convR))
                 .orElse(convR);
@@ -55,7 +56,7 @@ public class CategoryMap {
                 break;
             }
         }
-        if (range != null && range.length() >= 0) {
+        if (range != null && range.length() > 0) {
             convertedRanges.add(range);
         }
         return convertedRanges;

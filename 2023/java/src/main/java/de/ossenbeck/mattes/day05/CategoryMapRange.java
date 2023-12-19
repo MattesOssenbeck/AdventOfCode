@@ -1,5 +1,7 @@
 package de.ossenbeck.mattes.day05;
 
+import de.ossenbeck.mattes.util.Range;
+
 public class CategoryMapRange extends Range {
     private final long offset;
 

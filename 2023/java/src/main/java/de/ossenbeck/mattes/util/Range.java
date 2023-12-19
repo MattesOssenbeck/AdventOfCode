@@ -1,8 +1,8 @@
-package de.ossenbeck.mattes.day05;
+package de.ossenbeck.mattes.util;
 
 public class Range {
-    private final long start;
-    private final long end;
+    private long start;
+    private long end;
 
     public Range(long start, long end) {
         this.start = start;
@@ -18,7 +18,7 @@ public class Range {
     }
 
     public long length() {
-        return end - start;
+        return end - start + 1;
     }
 
     public boolean isLeftOf(Range otherRange) {
@@ -39,5 +39,18 @@ public class Range {
 
     public boolean intersectsRightSideOf(Range otherRange) {
         return otherRange.start < start && otherRange.end > start && otherRange.end < end;
+    }
+
+    public void setStart(long start) {
+        this.start = start;
+    }
+
+    public void setEnd(long end) {
+        this.end = end;
+    }
+
+    @Override
+    public String toString() {
+        return "Range[%s - %s]".formatted(start, end);
     }
 }
