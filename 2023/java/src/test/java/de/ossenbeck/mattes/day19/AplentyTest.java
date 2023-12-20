@@ -4,20 +4,20 @@ import de.ossenbeck.mattes.InputReader;
 import de.ossenbeck.mattes.Solveable;
 import de.ossenbeck.mattes.SolveableTest;
 
-class AplentyTest extends SolveableTest<Integer, Long> {
+class AplentyTest extends SolveableTest<Long, Long> {
 
     @Override
-    protected Solveable<Integer, Long> getSutPartOne() {
+    protected Solveable<Long, Long> getSutPartOne() {
         return new Aplenty(InputReader.readAsString("test", "19"));
     }
 
     @Override
-    protected Integer getExpectedResultPartOne() {
-        return 19114;
+    protected Long getExpectedResultPartOne() {
+        return 19114L;
     }
 
     @Override
-    protected Solveable<Integer, Long> getSutPartTwo() {
+    protected Solveable<Long, Long> getSutPartTwo() {
         return new Aplenty(InputReader.readAsString("test", "19"));
     }
 

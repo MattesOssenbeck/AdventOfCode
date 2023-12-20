@@ -49,6 +49,25 @@ public class Range {
         this.end = end;
     }
 
+    public Tuple<Range, Range> match(char comparisonSign, int number) {
+        if (comparisonSign == '>') {
+            if (number >= end) {
+                return new Tuple<>(null, this);
+            }
+            if (number < start) {
+                return new Tuple<>(this, null);
+            }
+            return new Tuple<>(new Range(number + 1, end), new Range(start, number));
+        }
+        if (number > end) {
+            return new Tuple<>(this, null);
+        }
+        if (number <= start) {
+            return new Tuple<>(null, this);
+        }
+        return new Tuple<>(new Range(start, number - 1), new Range(number, end));
+    }
+
     @Override
     public String toString() {
         return "Range[%s - %s]".formatted(start, end);
