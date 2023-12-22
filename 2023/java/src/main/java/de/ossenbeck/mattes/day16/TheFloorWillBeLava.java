@@ -61,11 +61,11 @@ public class TheFloorWillBeLava implements Solveable<Integer, Integer> {
             return debugContraption(currentTile, direction, visited);
         }
         if (tile == '|') {
-            visited.addAll(debugContraption(currentTile, NORTH, visited));
+            debugContraption(currentTile, NORTH, visited);
             return debugContraption(currentTile, SOUTH, visited);
         }
         if (tile == '-') {
-            visited.addAll(debugContraption(currentTile, EAST, visited));
+            debugContraption(currentTile, EAST, visited);
             return debugContraption(currentTile, WEST, visited);
         }
         if (tile == '/') {
