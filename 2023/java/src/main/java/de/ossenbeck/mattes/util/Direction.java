@@ -1,5 +1,7 @@
 package de.ossenbeck.mattes.util;
 
+import java.util.Arrays;
+
 public enum Direction {
     NORTH(0, -1),
     EAST(1, 0),
@@ -20,6 +22,13 @@ public enum Direction {
 
     public int y() {
         return y;
+    }
+
+    public static Direction of(int x, int y) {
+        return Arrays.stream(values())
+                .filter(direction -> direction.x == x && direction.y == y)
+                .findAny()
+                .orElseThrow();
     }
 
     public Direction opposite() {
