@@ -59,9 +59,9 @@ public class PulsePropagation implements Solveable<Long, Long> {
     private void pushButton(Map<String, Module> modules, Predicate<Long> shouldContinue, BiConsumer<Pulse, Long> consumer) {
         var queue = new ArrayDeque<Pulse>();
         var broadcastPulse = new Pulse("button", Signal.LOW, "broadcaster");
-        var times = 0L;
-        while (shouldContinue.test(times)) {
-            times++;
+        var numberOfButtonPushes = 0L;
+        while (shouldContinue.test(numberOfButtonPushes)) {
+            numberOfButtonPushes++;
             queue.add(broadcastPulse);
             while (!queue.isEmpty()) {
                 var pulse = queue.pop();
@@ -69,7 +69,7 @@ public class PulsePropagation implements Solveable<Long, Long> {
                 if (destinationModule != null) {
                     destinationModule.handlePulse(pulse, queue::add);
                 }
-                consumer.accept(pulse, times);
+                consumer.accept(pulse, numberOfButtonPushes);
             }
         }
     }
