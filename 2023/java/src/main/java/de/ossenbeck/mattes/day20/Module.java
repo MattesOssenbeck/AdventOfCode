@@ -1,6 +1,7 @@
 package de.ossenbeck.mattes.day20;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 public abstract sealed class Module permits FlipFlopModule, ConjunctionModule, BroadcasterModule {
     private final String label;
@@ -26,7 +27,7 @@ public abstract sealed class Module permits FlipFlopModule, ConjunctionModule, B
                 .toList();
     }
 
-    public abstract List<Pulse> handlePulse(Pulse pulse);
+    public abstract void handlePulse(Pulse pulse, Consumer<Pulse> sendPulse);
 
     public abstract void register(Module module);
 

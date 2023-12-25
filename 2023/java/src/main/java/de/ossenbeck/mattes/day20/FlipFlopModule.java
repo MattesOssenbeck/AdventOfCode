@@ -1,6 +1,7 @@
 package de.ossenbeck.mattes.day20;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 public final class FlipFlopModule extends Module {
     private boolean on;
@@ -10,13 +11,12 @@ public final class FlipFlopModule extends Module {
     }
 
     @Override
-    public List<Pulse> handlePulse(Pulse pulse) {
+    public void handlePulse(Pulse pulse, Consumer<Pulse> sendPulse) {
         if (Signal.LOW.equals(pulse.signal())) {
             on = !on;
             var signalToSend = on ? Signal.HIGH : Signal.LOW;
-            return createPulses(signalToSend);
+            createPulses(signalToSend).forEach(sendPulse);
         }
-        return List.of();
     }
 
     @Override

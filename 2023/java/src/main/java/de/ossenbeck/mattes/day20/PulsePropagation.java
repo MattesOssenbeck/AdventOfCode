@@ -4,6 +4,8 @@ import de.ossenbeck.mattes.Solveable;
 import de.ossenbeck.mattes.util.Util;
 
 import java.util.*;
+import java.util.function.BiConsumer;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class PulsePropagation implements Solveable<Long, Long> {
@@ -21,34 +23,20 @@ public class PulsePropagation implements Solveable<Long, Long> {
 
     @Override
     public Long solvePartOne() {
-        var modules = mappedModules.values().stream()
-                .map(Module::copy)
-                .collect(Collectors.toMap(Module::label, module -> module));
-
+        var modules = copyModules();
         var pulses = new HashMap<>(Map.of(Signal.LOW, 0L, Signal.HIGH, 0L));
-        var queue = new ArrayDeque<Pulse>();
-        for (var times = 0; times < 1_000; times++) {
-            queue.add(new Pulse("button", Signal.LOW, "broadcaster"));
-            while (!queue.isEmpty()) {
-                var pulse = queue.pop();
-                var destinationModule = modules.get(pulse.destination());
-                if (destinationModule != null) {
-                    queue.addAll(destinationModule.handlePulse(pulse));
-                }
-                pulses.compute(pulse.signal(), (signal, amount) -> amount + 1);
-            }
-        }
+
+        pushButton(modules,
+                (times) -> times < 1_000,
+                (pulse, timess) -> pulses.compute(pulse.signal(), (signal, amount) -> amount + 1)
+        );
         return pulses.values().stream().reduce(1L, Math::multiplyExact);
     }
 
+
     @Override
     public Long solvePartTwo() {
-        // This solution assumes that only one conjunction module is attached to rx and
-        // that each connected input module for this conjunction module enters a cycle after sending a HIGH pulse once
-        var modules = mappedModules.values().stream()
-                .map(Module::copy)
-                .collect(Collectors.toMap(Module::label, module -> module));
-
+        var modules = copyModules();
         var inputModulesCycle = modules.values().stream()
                 .filter(module -> module.destinations().contains("rx"))
                 .findFirst()
@@ -56,24 +44,39 @@ public class PulsePropagation implements Solveable<Long, Long> {
                 .map(ConjunctionModule::inputModules)
                 .map(inputModules -> inputModules.stream().collect(Collectors.toMap(label -> label, __ -> 0L)))
                 .orElseThrow();
+
+        pushButton(modules,
+                (times) -> inputModulesCycle.containsValue(0L),
+                (pulse, times) -> {
+                    if (inputModulesCycle.containsKey(pulse.sender()) && pulse.signal().equals(Signal.HIGH)) {
+                        inputModulesCycle.put(pulse.sender(), times);
+                    }
+                }
+        );
+        return inputModulesCycle.values().stream().reduce(1L, Util::lcm);
+    }
+
+    private void pushButton(Map<String, Module> modules, Predicate<Long> shouldContinue, BiConsumer<Pulse, Long> consumer) {
         var queue = new ArrayDeque<Pulse>();
+        var broadcastPulse = new Pulse("button", Signal.LOW, "broadcaster");
         var times = 0L;
-        while (true) {
-            queue.add(new Pulse("button", Signal.LOW, "broadcaster"));
+        while (shouldContinue.test(times)) {
             times++;
+            queue.add(broadcastPulse);
             while (!queue.isEmpty()) {
                 var pulse = queue.pop();
                 var destinationModule = modules.get(pulse.destination());
                 if (destinationModule != null) {
-                    queue.addAll(destinationModule.handlePulse(pulse));
+                    destinationModule.handlePulse(pulse, queue::add);
                 }
-                if (inputModulesCycle.containsKey(pulse.sender()) && pulse.signal().equals(Signal.HIGH)) {
-                    inputModulesCycle.put(pulse.sender(), times);
-                }
-            }
-            if (!inputModulesCycle.containsValue(0L)) {
-                return inputModulesCycle.values().stream().reduce(1L, Util::lcm);
+                consumer.accept(pulse, times);
             }
         }
+    }
+
+    private Map<String, Module> copyModules() {
+        return mappedModules.values().stream()
+                .map(Module::copy)
+                .collect(Collectors.toMap(Module::label, module -> module));
     }
 }

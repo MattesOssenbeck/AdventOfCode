@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 public final class ConjunctionModule extends Module {
@@ -19,10 +20,10 @@ public final class ConjunctionModule extends Module {
     }
 
     @Override
-    public List<Pulse> handlePulse(Pulse pulse) {
+    public void handlePulse(Pulse pulse, Consumer<Pulse> sendPulse) {
         recentPulses.put(pulse.sender(), pulse.signal());
         var signalToSend = recentPulses.containsValue(Signal.LOW) ? Signal.HIGH : Signal.LOW;
-        return createPulses(signalToSend);
+        createPulses(signalToSend).forEach(sendPulse);
     }
 
     @Override
