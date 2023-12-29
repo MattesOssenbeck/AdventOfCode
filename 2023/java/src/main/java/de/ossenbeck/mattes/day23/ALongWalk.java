@@ -13,7 +13,7 @@ public class ALongWalk implements Solveable<Integer, Integer> {
     private final List<String> map;
     private final Coordinate start;
     private final Coordinate destination;
-    private Map<Coordinate, Set<State>> adjacentTrails;
+    private Map<Coordinate, Set<HikingTrail>> adjacentTrails;
     private final Set<Coordinate> visited = new HashSet<>();
 
     public ALongWalk(List<String> input) {
@@ -45,8 +45,8 @@ public class ALongWalk implements Solveable<Integer, Integer> {
         visited.add(current);
         var longestPath = Integer.MIN_VALUE;
         for (var adjacentTrail : adjacentTrails.get(current)) {
-            if (!visited.contains(adjacentTrail.coordinate())) {
-                longestPath = Math.max(longestPath, findLongestHikingTrail(adjacentTrail.coordinate()) + adjacentTrail.length());
+            if (!visited.contains(adjacentTrail.start())) {
+                longestPath = Math.max(longestPath, findLongestHikingTrail(adjacentTrail.start()) + adjacentTrail.length());
             }
         }
         visited.remove(current);
@@ -84,7 +84,31 @@ public class ALongWalk implements Solveable<Integer, Integer> {
     }
 
     private void buildHikingTrails(boolean hasSlippySlopes) {
-        this.adjacentTrails = IntStream.range(0, map.size())
+        this.adjacentTrails = determineBranchingTrailCoordinates(hasSlippySlopes);
+        for (var adjacentTrail : adjacentTrails.keySet()) {
+            var visited = new HashSet<Coordinate>();
+            var trail = new ArrayDeque<HikingTrail>();
+            trail.add(new HikingTrail(adjacentTrail, 0));
+            visited.add(adjacentTrail);
+
+            while (!trail.isEmpty()) {
+                var state = trail.poll();
+                if (!state.start().equals(adjacentTrail) && adjacentTrails.containsKey(state.start())) {
+                    adjacentTrails.get(adjacentTrail).add(state);
+                } else {
+                    for (var possibleStep : getPossibleSteps(state.start(), hasSlippySlopes)) {
+                        if (!visited.contains(possibleStep)) {
+                            trail.add(new HikingTrail(possibleStep, state.length() + 1));
+                            visited.add(possibleStep);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private Map<Coordinate, Set<HikingTrail>> determineBranchingTrailCoordinates(boolean hasSlippySlopes) {
+        return IntStream.range(0, map.size())
                 .mapToObj(y -> IntStream.range(0, map.get(y).length())
                         .filter(x -> map.get(y).charAt(x) != Tile.FOREST)
                         .mapToObj(x -> new Coordinate(x, y))
@@ -93,26 +117,5 @@ public class ALongWalk implements Solveable<Integer, Integer> {
                 .collect(Collectors.toCollection(() -> new ArrayList<>(List.of(start, destination))))
                 .stream()
                 .collect(Collectors.toMap(Function.identity(), __ -> new HashSet<>()));
-
-        for (var adjacentTrail : adjacentTrails.keySet()) {
-            var visited = new HashSet<Coordinate>();
-            var trail = new ArrayDeque<State>();
-            trail.add(new State(adjacentTrail, 0));
-            visited.add(adjacentTrail);
-
-            while (!trail.isEmpty()) {
-                var state = trail.poll();
-                if (!state.coordinate().equals(adjacentTrail) && adjacentTrails.containsKey(state.coordinate())) {
-                    adjacentTrails.get(adjacentTrail).add(state);
-                } else {
-                    for (var possibleStep : getPossibleSteps(state.coordinate(), hasSlippySlopes)) {
-                        if (!visited.contains(possibleStep)) {
-                            trail.add(new State(possibleStep, state.length() + 1));
-                            visited.add(possibleStep);
-                        }
-                    }
-                }
-            }
-        }
     }
 }
