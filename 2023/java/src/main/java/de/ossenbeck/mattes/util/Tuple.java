@@ -1,3 +1,9 @@
 package de.ossenbeck.mattes.util;
 
-public record Tuple<T, U>(T first, U second) {}
+import java.util.function.BiFunction;
+
+public record Tuple<T, U>(T first, U second) {
+    public <R> R apply(BiFunction<? super T, ? super U, ? extends R> f) {
+        return f.apply(first, second);
+    }
+}
