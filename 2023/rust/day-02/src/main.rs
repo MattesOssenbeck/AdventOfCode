@@ -95,7 +95,7 @@ fn solve_part02(input_name: &str) -> u32 {
         .lines()
         .map(parse_game)
         .map(Game::max_amount_of_cubes)
-        .map(|(r, g, b)| r * g * b)//MAX amount of every color for this game
+        .map(|(r, g, b)| r * g * b)
         .sum()
 }
 
