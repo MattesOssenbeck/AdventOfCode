@@ -1,5 +1,5 @@
-use std::fs::read_to_string;
 use std::collections::HashMap;
+use std::fs::read_to_string;
 
 fn main() {
     let result1 = solve_part01("day-01/src/input.txt");
@@ -9,7 +9,7 @@ fn main() {
     println!("Result of part 2 is {}", result2);
 }
 
-fn solve_part01(input_name: &str) -> u32{
+fn solve_part01(input_name: &str) -> u32 {
     read_to_string(input_name)
         .unwrap()
         .lines()
@@ -17,7 +17,7 @@ fn solve_part01(input_name: &str) -> u32{
         .sum()
 }
 
-fn solve_part02(input_name: &str) -> u32{
+fn solve_part02(input_name: &str) -> u32 {
     let written_number_replacements = HashMap::from([
         ("one", "o1e"),
         ("two", "t2o"),
@@ -27,7 +27,7 @@ fn solve_part02(input_name: &str) -> u32{
         ("six", "s6x"),
         ("seven", "s7n"),
         ("eight", "e8t"),
-        ("nine", "n9e")
+        ("nine", "n9e"),
     ]);
 
     read_to_string(input_name)
@@ -39,9 +39,7 @@ fn solve_part02(input_name: &str) -> u32{
 }
 
 fn find_first_and_last_numbers(line: &str) -> u32 {
-    let mut digits = line
-        .chars()
-        .filter_map(|c| c.to_digit(10));
+    let mut digits = line.chars().filter_map(|c| c.to_digit(10));
 
     digits
         .next()
@@ -49,12 +47,11 @@ fn find_first_and_last_numbers(line: &str) -> u32 {
         .unwrap()
 }
 
-fn replace_written_numbers_with_digits(line: &str, replacements: &HashMap<&str, &str>) -> String{
-    replacements.iter()
-        .fold(
-            String::from(line),
-            |result, (written_number, replacement)| result.replace(written_number, replacement)
-        )
+fn replace_written_numbers_with_digits(line: &str, replacements: &HashMap<&str, &str>) -> String {
+    replacements.iter().fold(
+        String::from(line),
+        |result, (written_number, replacement)| result.replace(written_number, replacement),
+    )
 }
 
 #[cfg(test)]
