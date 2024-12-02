@@ -4,7 +4,6 @@ import java.io.File;
 import java.nio.file.Paths;
 
 public record PuzzleRunner(String moduleName) {
-
     public static void main(String[] args) {
         var puzzleRunner = new PuzzleRunner(PuzzleRunner.class.getPackageName());
         if (args.length > 0) {
@@ -16,7 +15,6 @@ public record PuzzleRunner(String moduleName) {
 
     public void runAll() {
         for (var i = 1; i <= 25; i++) {
-            System.out.println("Day " + i);
             run(i);
             System.out.println();
         }
@@ -31,6 +29,7 @@ public record PuzzleRunner(String moduleName) {
                     .getDeclaredConstructor(InputReader.class)
                     .newInstance(new InputReader(inputFile));
             if (puzzleInstance instanceof Solvable<?, ?> solvable) {
+                System.out.println("Day " + day);
                 solvable.printParts();
             } else {
                 System.out.println("Puzzle must implement Solvable");

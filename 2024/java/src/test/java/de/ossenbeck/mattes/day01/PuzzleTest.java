@@ -8,7 +8,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class PuzzleTest extends SolvableTest<Integer, Integer> {
-    private static final Path INPUT = Paths.get("src", "test", "java", "de", "ossenbeck", "mattes", "day01", "input.txt");
+    private static final Path INPUT = COMMON_PATH.resolve(Paths.get("day01", "input.txt"));
 
     @Override
     protected Solvable<Integer, Integer> getSutPartOne() {
@@ -19,7 +19,7 @@ public class PuzzleTest extends SolvableTest<Integer, Integer> {
     protected Integer getExpectedResultPartOne() {
         return 11;
     }
-
+    
     @Override
     protected Solvable<Integer, Integer> getSutPartTwo() {
         return new Puzzle(new InputReader(INPUT));
