@@ -15,7 +15,11 @@ public record Coordinate(int x, int y) {
                 .orElse(new Coordinate(Integer.MAX_VALUE, Integer.MAX_VALUE));
     }
 
-    public Coordinate moveIn(Direction direction) {
-        return new Coordinate(x + direction.x(), y + direction.y());
+    public Coordinate move(Direction direction) {
+        return move(direction, 1);
+    }
+
+    public Coordinate move(Direction direction, int steps) {
+        return new Coordinate(x + steps * direction.x(), y + steps * direction.y());
     }
 }
