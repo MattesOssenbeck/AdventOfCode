@@ -3,6 +3,7 @@ package de.ossenbeck.mattes.common;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class Util {
     public static List<String> zip(List<String> rows) {
@@ -35,5 +36,11 @@ public class Util {
         return Math.abs(IntStream.range(0, c.size())
                 .mapToLong(i -> (long) c.get(i).x() * (long) (c.get((i + 1) % c.size()).y() - c.get((i - 1 + c.size()) % c.size()).y()))
                 .sum()) / 2;
+    }
+
+    public static Stream<Coordinate> traverseGrid(char[][] grid) {
+        return IntStream.range(0, grid.length)
+                .boxed()
+                .flatMap(y -> IntStream.range(0, grid[y].length).mapToObj(x -> new Coordinate(x, y)));
     }
 }

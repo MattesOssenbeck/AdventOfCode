@@ -1,4 +1,4 @@
-package de.ossenbeck.mattes.day02;
+package de.ossenbeck.mattes.day04;
 
 import de.ossenbeck.mattes.InputReader;
 import de.ossenbeck.mattes.Solvable;
@@ -8,7 +8,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 class PuzzleTest extends SolvableTest<Long, Long> {
-    private static final Path INPUT = COMMON_PATH.resolve(Paths.get("day02", "input.txt"));
+    private static final Path INPUT = COMMON_PATH.resolve(Paths.get("day04", "input.txt"));
 
     @Override
     protected Solvable<Long, Long> getSutPartOne() {
@@ -17,7 +17,7 @@ class PuzzleTest extends SolvableTest<Long, Long> {
 
     @Override
     protected Long getExpectedResultPartOne() {
-        return 2L;
+        return 18L;
     }
 
     @Override
@@ -27,6 +27,6 @@ class PuzzleTest extends SolvableTest<Long, Long> {
 
     @Override
     protected Long getExpectedResultPartTwo() {
-        return 4L;
+        return 9L;
     }
 }

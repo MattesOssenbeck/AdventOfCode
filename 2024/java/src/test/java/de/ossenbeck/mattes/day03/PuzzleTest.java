@@ -7,7 +7,7 @@ import de.ossenbeck.mattes.SolvableTest;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class PuzzleTest extends SolvableTest<Integer, Integer> {
+class PuzzleTest extends SolvableTest<Integer, Integer> {
     private static final Path INPUT_1 = COMMON_PATH.resolve(Paths.get("day03", "input_1.txt"));
     private static final Path INPUT_2 = COMMON_PATH.resolve(Paths.get("day03", "input_2.txt"));
 

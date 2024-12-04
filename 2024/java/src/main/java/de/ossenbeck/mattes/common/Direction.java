@@ -1,12 +1,17 @@
 package de.ossenbeck.mattes.common;
 
 import java.util.Arrays;
+import java.util.stream.Stream;
 
 public enum Direction {
     NORTH(0, -1),
+    NORTH_EAST(1, -1),
     EAST(1, 0),
+    SOUTH_EAST(1, 1),
     SOUTH(0, 1),
-    WEST(-1, 0);
+    SOUTH_WEST(-1, 1),
+    WEST(-1, 0),
+    NORTH_WEST(-1, -1);
 
     private final int x;
     private final int y;
@@ -37,6 +42,10 @@ public enum Direction {
             case SOUTH -> NORTH;
             case WEST -> EAST;
             case EAST -> WEST;
+            case NORTH_EAST -> SOUTH_WEST;
+            case SOUTH_EAST -> NORTH_WEST;
+            case SOUTH_WEST -> NORTH_EAST;
+            case NORTH_WEST -> SOUTH_EAST;
         };
     }
 
@@ -46,6 +55,10 @@ public enum Direction {
             case SOUTH -> EAST;
             case WEST -> SOUTH;
             case EAST -> NORTH;
+            case NORTH_EAST -> NORTH_WEST;
+            case SOUTH_EAST -> NORTH_EAST;
+            case SOUTH_WEST -> SOUTH_EAST;
+            case NORTH_WEST -> SOUTH_WEST;
         };
     }
 
@@ -55,6 +68,22 @@ public enum Direction {
             case SOUTH -> WEST;
             case WEST -> NORTH;
             case EAST -> SOUTH;
+            case NORTH_EAST -> SOUTH_EAST;
+            case SOUTH_EAST -> SOUTH_WEST;
+            case SOUTH_WEST -> NORTH_WEST;
+            case NORTH_WEST -> NORTH_EAST;
         };
+    }
+
+    public static Stream<Direction> cardinalDirections() {
+        return Stream.of(NORTH, EAST, SOUTH, WEST);
+    }
+
+    public static Stream<Direction> ordinalDirections() {
+        return Stream.of(NORTH_EAST, SOUTH_EAST, SOUTH_WEST, NORTH_WEST);
+    }
+
+    public static Stream<Direction> allDirections() {
+        return Arrays.stream(values());
     }
 }
