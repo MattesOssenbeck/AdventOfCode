@@ -6,6 +6,7 @@ import de.ossenbeck.mattes.common.Coordinate;
 import de.ossenbeck.mattes.common.Direction;
 import de.ossenbeck.mattes.common.Grid;
 
+import java.util.Arrays;
 import java.util.stream.Stream;
 
 public class Puzzle implements Solvable<Long, Long> {
@@ -23,7 +24,7 @@ public class Puzzle implements Solvable<Long, Long> {
     public Long solvePartOne() {
         return wordSearch.traverse()
                 .filter(coordinate -> wordSearch.charAt(coordinate) == 'X')
-                .flatMap(coordinate -> Direction.allDirections()
+                .flatMap(coordinate -> Arrays.stream(Direction.values())
                         .filter(direction -> wordSearch.isInBounds(coordinate.move(direction, 3)))
                         .filter(direction -> matchesXMAS(coordinate, direction))
                 ).count();
@@ -33,13 +34,9 @@ public class Puzzle implements Solvable<Long, Long> {
     public Long solvePartTwo() {
         return wordSearch.traverse()
                 .filter(coordinate -> wordSearch.charAt(coordinate) == 'A')
-                .filter(this::ordinalDirectionsAreInBounds)
+                .filter(coordinate -> wordSearch.areInBounds(coordinate, Direction.ordinalDirections()))
                 .filter(this::matchesX_MAS)
                 .count();
-    }
-
-    private boolean ordinalDirectionsAreInBounds(Coordinate coordinate) {
-        return Direction.ordinalDirections().allMatch(direction -> wordSearch.isInBounds(coordinate.move(direction)));
     }
 
     private boolean matchesXMAS(Coordinate coordinate, Direction direction) {

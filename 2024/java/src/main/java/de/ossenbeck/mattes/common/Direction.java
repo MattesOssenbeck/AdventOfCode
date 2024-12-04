@@ -1,7 +1,7 @@
 package de.ossenbeck.mattes.common;
 
 import java.util.Arrays;
-import java.util.stream.Stream;
+import java.util.List;
 
 public enum Direction {
     NORTH(0, -1),
@@ -75,15 +75,11 @@ public enum Direction {
         };
     }
 
-    public static Stream<Direction> cardinalDirections() {
-        return Stream.of(NORTH, EAST, SOUTH, WEST);
+    public static List<Direction> cardinalDirections() {
+        return List.of(NORTH, EAST, SOUTH, WEST);
     }
 
-    public static Stream<Direction> ordinalDirections() {
-        return Stream.of(NORTH_EAST, SOUTH_EAST, SOUTH_WEST, NORTH_WEST);
-    }
-
-    public static Stream<Direction> allDirections() {
-        return Arrays.stream(values());
+    public static List<Direction> ordinalDirections() {
+        return List.of(NORTH_EAST, SOUTH_EAST, SOUTH_WEST, NORTH_WEST);
     }
 }
