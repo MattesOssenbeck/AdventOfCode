@@ -1,10 +1,14 @@
 package de.ossenbeck.mattes.common;
 
 import java.util.List;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class Util {
+    public static final Pattern DOUBLE_LINE_SEPARATOR = Pattern.compile(System.lineSeparator() + System.lineSeparator());
+    public static final Pattern LINE_SEPARATOR = Pattern.compile(System.lineSeparator());
+
     public static List<String> zip(List<String> rows) {
         return IntStream.range(0, rows.getFirst().length())
                 .mapToObj(column -> rows.stream()
