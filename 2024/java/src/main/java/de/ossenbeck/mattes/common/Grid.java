@@ -25,4 +25,15 @@ public record Grid(char[][] grid) {
     public char charAt(Coordinate coordinate) {
         return grid[coordinate.y()][coordinate.x()];
     }
+
+    public void replaceCharAt(Coordinate coordinate, char newChar) {
+        grid[coordinate.y()][coordinate.x()] = newChar;
+    }
+
+    public Coordinate getCoordinateOf(char charToFind) {
+        return traverse()
+                .filter(coordinate -> charAt(coordinate) == charToFind)
+                .findAny()
+                .orElseThrow();
+    }
 }
