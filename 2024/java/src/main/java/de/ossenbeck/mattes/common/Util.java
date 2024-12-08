@@ -40,4 +40,12 @@ public class Util {
                 .mapToLong(i -> (long) c.get(i).x() * (long) (c.get((i + 1) % c.size()).y() - c.get((i - 1 + c.size()) % c.size()).y()))
                 .sum()) / 2;
     }
+
+    public static long concatNumbers(long a, long b) {
+        return Long.parseLong(String.valueOf(a) + b);
+    }
+
+    public static int concatNumbers(int a, int b) {
+        return Integer.parseInt(String.valueOf(a) + b);
+    }
 }
