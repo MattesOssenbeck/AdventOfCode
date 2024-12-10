@@ -30,6 +30,15 @@ public record Grid(char[][] grid) {
         grid[coordinate.y()][coordinate.x()] = newChar;
     }
 
+    public void print() {
+        for (int y = 0; y < grid.length; y++) {
+            for (int x = 0; x < grid[y].length; x++) {
+                System.out.print(grid[y][x]);
+            }
+            System.out.println();
+        }
+    }
+
     public Coordinate getCoordinateOf(char charToFind) {
         return traverse()
                 .filter(coordinate -> charAt(coordinate) == charToFind)

@@ -27,9 +27,8 @@ public record Equation(long testValue, List<Long> numbers) {
         if (current + next <= testValue && isSolvable(current + next, remainingNumbers, allowConcatenation)) {
             return true;
         }
-        var concatenatedNumbers = concatNumbers(current, next);
         return allowConcatenation
-                && concatenatedNumbers <= testValue
-                && isSolvable(concatenatedNumbers, remainingNumbers, true);
+                && concatNumbers(current, next) <= testValue
+                && isSolvable(concatNumbers(current, next), remainingNumbers, true);
     }
 }

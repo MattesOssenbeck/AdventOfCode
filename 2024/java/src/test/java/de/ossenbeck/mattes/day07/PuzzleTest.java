@@ -5,10 +5,9 @@ import de.ossenbeck.mattes.Solvable;
 import de.ossenbeck.mattes.SolvableTest;
 
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class PuzzleTest extends SolvableTest<Long, Long> {
-    private static final Path INPUT = COMMON_PATH.resolve(Paths.get("day07", "input.txt"));
+    private static final Path INPUT = COMMON_PATH.resolve("day07", "input.txt");
 
     @Override
     protected Solvable<Long, Long> getSutPartOne() {

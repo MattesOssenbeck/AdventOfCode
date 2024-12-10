@@ -16,7 +16,6 @@ public record PuzzleRunner(String moduleName) {
     public void runAll() {
         for (var i = 1; i <= 25; i++) {
             run(i);
-            System.out.println();
         }
     }
 
@@ -31,11 +30,10 @@ public record PuzzleRunner(String moduleName) {
             if (puzzleInstance instanceof Solvable<?, ?> solvable) {
                 System.out.println("Day " + day);
                 solvable.printParts();
-            } else {
-                System.out.println("Puzzle must implement Solvable");
+                System.out.println();
             }
         } catch (Exception e) {
-            System.out.println("There was an error loading the puzzle for day " + day + "\n-> " + e);
+            //System.out.println("There was an error loading the puzzle for day " + day + "\n-> " + e);
         }
     }
 }
