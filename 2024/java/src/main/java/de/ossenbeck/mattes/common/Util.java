@@ -8,6 +8,7 @@ import java.util.stream.IntStream;
 public class Util {
     public static final Pattern DOUBLE_LINE_SEPARATOR = Pattern.compile(System.lineSeparator() + System.lineSeparator());
     public static final Pattern LINE_SEPARATOR = Pattern.compile(System.lineSeparator());
+    public static final Pattern SPACE_SEPARATOR = Pattern.compile("\\s");
 
     public static List<String> zip(List<String> rows) {
         return IntStream.range(0, rows.getFirst().length())
