@@ -33,8 +33,7 @@ public class Puzzle implements Solvable<Integer, Integer> {
         return trailheads.stream()
                 .map(this::findGoodHikingTrails)
                 .mapToInt(paths -> (int) paths.stream()
-                        .flatMap(Set::stream)
-                        .filter(coordinate -> grid.charAt(coordinate) == MAX_HEIGHT)
+                        .map(List::getLast)
                         .distinct()
                         .count())
                 .sum();
@@ -48,13 +47,13 @@ public class Puzzle implements Solvable<Integer, Integer> {
                 .sum();
     }
 
-    private Set<Set<Coordinate>> findGoodHikingTrails(Coordinate trailhead) {
-        var goodHikingTrails = new HashSet<Set<Coordinate>>();
-        var toVisit = new ArrayList<Pair<Coordinate, ? extends Set<Coordinate>>>();
-        toVisit.add(new Pair<>(trailhead, Set.of(trailhead)));
+    private Set<List<Coordinate>> findGoodHikingTrails(Coordinate trailhead) {
+        var goodHikingTrails = new HashSet<List<Coordinate>>();
+        var toVisit = new ArrayList<Pair<Coordinate, ? extends List<Coordinate>>>();
+        toVisit.add(new Pair<>(trailhead, List.of(trailhead)));
         while (!toVisit.isEmpty()) {
             var current = toVisit.removeFirst();
-            var climbedTrail = new HashSet<>(current.right());
+            var climbedTrail = new ArrayList<>(current.right());
             climbedTrail.add(current.left());
             if (grid.charAt(current.left()) == MAX_HEIGHT) {
                 goodHikingTrails.add(climbedTrail);
