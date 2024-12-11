@@ -25,7 +25,7 @@ public class Puzzle implements Solvable<Integer, Integer> {
                         .map(String::toCharArray)
                         .toArray(char[][]::new)
         );
-        this.guardStartingPosition = new Position(grid.getCoordinateOf('^'), Direction.NORTH);
+        this.guardStartingPosition = new Position(grid.find('^'), Direction.NORTH);
     }
 
     @Override

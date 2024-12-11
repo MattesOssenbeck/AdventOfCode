@@ -1,6 +1,8 @@
 package de.ossenbeck.mattes.common;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -39,10 +41,29 @@ public record Grid(char[][] grid) {
         }
     }
 
-    public Coordinate getCoordinateOf(char charToFind) {
+    public void print(Set<Coordinate> toHighlight) {
+        for (int y = 0; y < grid.length; y++) {
+            for (int x = 0; x < grid[y].length; x++) {
+                if (toHighlight.contains(new Coordinate(x, y))) {
+                    System.out.print('X');
+                    continue;
+                }
+                System.out.print(grid[y][x]);
+            }
+            System.out.println();
+        }
+    }
+
+    public Coordinate find(char charToFind) {
         return traverse()
                 .filter(coordinate -> charAt(coordinate) == charToFind)
                 .findAny()
                 .orElseThrow();
+    }
+
+    public List<Coordinate> findAll(char charToFind) {
+        return traverse()
+                .filter(coordinate -> charAt(coordinate) == charToFind)
+                .collect(Collectors.toList());
     }
 }
