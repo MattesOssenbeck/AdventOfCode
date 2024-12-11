@@ -5,7 +5,6 @@ import de.ossenbeck.mattes.Solvable;
 import de.ossenbeck.mattes.common.Coordinate;
 import de.ossenbeck.mattes.common.Direction;
 import de.ossenbeck.mattes.common.Grid;
-import de.ossenbeck.mattes.common.Pair;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -32,10 +31,8 @@ public class Puzzle implements Solvable<Integer, Integer> {
     public Integer solvePartOne() {
         return trailheads.stream()
                 .map(this::findGoodHikingTrails)
-                .mapToInt(paths -> (int) paths.stream()
-                        .map(List::getLast)
-                        .distinct()
-                        .count())
+                .map(HashSet::new)
+                .mapToInt(Set::size)
                 .sum();
     }
 
@@ -43,27 +40,23 @@ public class Puzzle implements Solvable<Integer, Integer> {
     public Integer solvePartTwo() {
         return trailheads.stream()
                 .map(this::findGoodHikingTrails)
-                .mapToInt(Set::size)
+                .mapToInt(List::size)
                 .sum();
     }
 
-    private Set<List<Coordinate>> findGoodHikingTrails(Coordinate trailhead) {
-        var goodHikingTrails = new HashSet<List<Coordinate>>();
-        var toVisit = new ArrayList<Pair<Coordinate, ? extends List<Coordinate>>>();
-        toVisit.add(new Pair<>(trailhead, List.of(trailhead)));
+    private List<Coordinate> findGoodHikingTrails(Coordinate trailhead) {
+        var peaks = new ArrayList<Coordinate>();
+        var toVisit = new ArrayList<Coordinate>();
+        toVisit.add(trailhead);
         while (!toVisit.isEmpty()) {
             var current = toVisit.removeFirst();
-            var climbedTrail = new ArrayList<>(current.right());
-            climbedTrail.add(current.left());
-            if (grid.charAt(current.left()) == MAX_HEIGHT) {
-                goodHikingTrails.add(climbedTrail);
+            if (grid.charAt(current) == MAX_HEIGHT) {
+                peaks.add(current);
                 continue;
             }
-            findAdjacentClimbableSlopes(current.left())
-                    .map(coordinate -> new Pair<>(coordinate, climbedTrail))
-                    .forEach(toVisit::add);
+            findAdjacentClimbableSlopes(current).forEach(toVisit::add);
         }
-        return goodHikingTrails;
+        return peaks;
     }
 
     private Stream<Coordinate> findAdjacentClimbableSlopes(Coordinate current) {
