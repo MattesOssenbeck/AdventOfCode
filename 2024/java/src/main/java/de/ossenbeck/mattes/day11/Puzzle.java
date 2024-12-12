@@ -23,20 +23,19 @@ public class Puzzle implements Solvable<Long, Long> {
     @Override
     public Long solvePartOne() {
         return stones.stream()
-                .mapToLong(stone -> blink(stone, 0, 25))
+                .mapToLong(stone -> blink(stone, 25))
                 .sum();
     }
 
     @Override
     public Long solvePartTwo() {
-        cache.clear();
         return stones.stream()
-                .mapToLong(stone -> blink(stone, 0, 75))
+                .mapToLong(stone -> blink(stone, 75))
                 .sum();
     }
 
-    private long blink(long stone, int times, int limit) {
-        if (times == limit) {
+    private long blink(long stone, int times) {
+        if (times == 0) {
             return 1;
         }
         var state = new State(stone, times);
@@ -44,7 +43,7 @@ public class Puzzle implements Solvable<Long, Long> {
             return cache.get(state);
         }
         if (stone == 0) {
-            var amountOfStones = blink(1, times + 1, limit);
+            var amountOfStones = blink(1, times - 1);
             cache.put(state, amountOfStones);
             return amountOfStones;
         }
@@ -52,12 +51,12 @@ public class Puzzle implements Solvable<Long, Long> {
         if (stoneString.length() % 2 == 0) {
             var left = stoneString.substring(0, stoneString.length() / 2);
             var right = stoneString.substring(stoneString.length() / 2);
-            var amountOfStones = blink(Integer.parseInt(left), times + 1, limit)
-                    + blink(Integer.parseInt(right), times + 1, limit);
+            var amountOfStones = blink(Integer.parseInt(left), times - 1)
+                    + blink(Integer.parseInt(right), times - 1);
             cache.put(state, amountOfStones);
             return amountOfStones;
         }
-        var amountOfStones = blink(stone * 2024, times + 1, limit);
+        var amountOfStones = blink(stone * 2024, times - 1);
         cache.put(state, amountOfStones);
         return amountOfStones;
     }
