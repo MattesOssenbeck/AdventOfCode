@@ -39,18 +39,19 @@ public class Puzzle implements Solvable<Integer, Integer> {
         return regions;
     }
 
-    private Region findRegion(Coordinate current) {
+    private Region findRegion(Coordinate startOfRegion) {
         var coordinates = new HashSet<Coordinate>();
-        var toVisitRegion = new ArrayList<Coordinate>();
-        coordinates.add(current);
-        findAdjacentGardenPlots(current).forEach(toVisitRegion::add);
-        while (!toVisitRegion.isEmpty()) {
-            var cur = toVisitRegion.removeFirst();
-            if (coordinates.contains(cur)) {
+        var toVisit = new ArrayList<Coordinate>();
+        coordinates.add(startOfRegion);
+        findAdjacentGardenPlots(startOfRegion).forEach(toVisit::add);
+
+        while (!toVisit.isEmpty()) {
+            var current = toVisit.removeFirst();
+            if (coordinates.contains(current)) {
                 continue;
             }
-            coordinates.add(cur);
-            findAdjacentGardenPlots(cur).forEach(toVisitRegion::add);
+            coordinates.add(current);
+            findAdjacentGardenPlots(current).forEach(toVisit::add);
         }
         return new Region(coordinates);
     }
