@@ -2,6 +2,9 @@ package de.ossenbeck.mattes;
 
 
 import de.ossenbeck.mattes.common.Util;
+import org.openjdk.jmh.runner.Runner;
+import org.openjdk.jmh.runner.RunnerException;
+import org.openjdk.jmh.runner.options.OptionsBuilder;
 import picocli.CommandLine;
 
 import java.util.concurrent.Callable;
@@ -40,6 +43,9 @@ public class AocCli implements Callable<Integer> {
         for (var day : Util.parseNumbers(days)) {
             try {
                 puzzleRunner.run(day);
+                if (benchmark) {
+                    runBenchmarks(day);
+                }
             } catch (Exception e) {
                 if (showError) {
                     System.out.println("There was an error loading the puzzle for day " + day);
@@ -48,6 +54,17 @@ public class AocCli implements Callable<Integer> {
             }
         }
         return 0;
+    }
+
+    private void runBenchmarks(int day) throws RunnerException {
+        System.out.println("Running benchmark for Day " + day);
+        var options = new OptionsBuilder()
+                .include(BenchmarkRunner.class.getSimpleName())
+                .param("day", String.valueOf(day))
+                .forks(1)
+                .build();
+
+        new Runner(options).run();
     }
 
     public static void main(String... args) {
