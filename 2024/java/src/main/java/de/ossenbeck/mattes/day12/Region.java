@@ -22,7 +22,7 @@ public record Region(Set<Coordinate> coordinates) {
                 .count();
     }
 
-    public int sites() {
+    public int sides() {
         return coordinates.stream()
                 .flatMap(this::findFencePositions)
                 .map(FencePiece::new)

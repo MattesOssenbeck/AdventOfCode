@@ -74,7 +74,7 @@ public class Puzzle implements Solvable<Integer, Integer> {
     @Override
     public Integer solvePartTwo() {
         return regions.stream()
-                .mapToInt(region -> region.area() * region.sites())
+                .mapToInt(region -> region.area() * region.sides())
                 .sum();
     }
 }
