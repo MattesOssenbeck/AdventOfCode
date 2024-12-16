@@ -10,7 +10,7 @@ public class Util {
     public static final Pattern DOUBLE_LINE_SEPARATOR = Pattern.compile(System.lineSeparator() + System.lineSeparator());
     public static final Pattern LINE_SEPARATOR = Pattern.compile(System.lineSeparator());
     public static final Pattern SPACE_SEPARATOR = Pattern.compile("\\s");
-    private static final Pattern NUMBER_PATTERN = Pattern.compile("(\\d+)");
+    private static final Pattern NUMBER_PATTERN = Pattern.compile("(-?\\d+)");
 
     public static List<Integer> parseNumbers(String line) {
         return NUMBER_PATTERN.matcher(line).results()

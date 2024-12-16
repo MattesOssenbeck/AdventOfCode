@@ -8,8 +8,8 @@ import java.util.stream.Stream;
 
 public record Grid(char[][] grid) {
     public boolean isInBounds(Coordinate coordinate) {
-        return coordinate.y() >= 0 && coordinate.y() < grid.length
-                && coordinate.x() >= 0 && coordinate.x() < grid[coordinate.y()].length;
+        return coordinate.y() >= 0 && coordinate.y() < height()
+                && coordinate.x() >= 0 && coordinate.x() < width();
     }
 
     public boolean areInBounds(Coordinate coordinate, List<Direction> directions) {
@@ -19,9 +19,9 @@ public record Grid(char[][] grid) {
     }
 
     public Stream<Coordinate> traverse() {
-        return IntStream.range(0, grid.length)
+        return IntStream.range(0, height())
                 .boxed()
-                .flatMap(y -> IntStream.range(0, grid[y].length).mapToObj(x -> new Coordinate(x, y)));
+                .flatMap(y -> IntStream.range(0, width()).mapToObj(x -> new Coordinate(x, y)));
     }
 
     public char charAt(Coordinate coordinate) {
@@ -33,8 +33,8 @@ public record Grid(char[][] grid) {
     }
 
     public void print() {
-        for (int y = 0; y < grid.length; y++) {
-            for (int x = 0; x < grid[y].length; x++) {
+        for (int y = 0; y < height(); y++) {
+            for (int x = 0; x < width(); x++) {
                 System.out.print(grid[y][x]);
             }
             System.out.println();
@@ -42,10 +42,27 @@ public record Grid(char[][] grid) {
     }
 
     public void print(Set<Coordinate> toHighlight) {
-        for (int y = 0; y < grid.length; y++) {
-            for (int x = 0; x < grid[y].length; x++) {
+        for (int y = 0; y < height(); y++) {
+            for (int x = 0; x < width(); x++) {
                 if (toHighlight.contains(new Coordinate(x, y))) {
                     System.out.print('X');
+                    continue;
+                }
+                System.out.print(grid[y][x]);
+            }
+            System.out.println();
+        }
+    }
+
+    public void printCount(Set<Position> toHighlight) {
+        for (var y = 0; y < height(); y++) {
+            for (var x = 0; x < width(); x++) {
+                var hits = toHighlight.stream()
+                        .map(Position::coordinate)
+                        .filter(new Coordinate(x, y)::equals)
+                        .count();
+                if (hits != 0) {
+                    System.out.print(hits);
                     continue;
                 }
                 System.out.print(grid[y][x]);
@@ -65,5 +82,36 @@ public record Grid(char[][] grid) {
         return traverse()
                 .filter(coordinate -> charAt(coordinate) == charToFind)
                 .collect(Collectors.toList());
+    }
+
+    public boolean isInQuadrantI(Coordinate c) {
+        return c.x() > width() / 2 && c.y() < height() / 2;
+    }
+
+    public boolean isInQuadrantII(Coordinate c) {
+        return c.x() < width() / 2 && c.y() < height() / 2;
+    }
+
+    public boolean isInQuadrantIII(Coordinate c) {
+        return c.x() < width() / 2 && c.y() > height() / 2;
+    }
+
+    public boolean isInQuadrantIV(Coordinate c) {
+        return c.x() > width() / 2 && c.y() > height() / 2;
+    }
+
+    public int width() {
+        return grid[0].length;
+    }
+
+    public int height() {
+        return grid.length;
+    }
+
+    public Coordinate wrapAround(Coordinate c) {
+        return new Coordinate(
+                (c.x() % width() + width()) % width(),
+                (c.y() % height() + height()) % height()
+        );
     }
 }

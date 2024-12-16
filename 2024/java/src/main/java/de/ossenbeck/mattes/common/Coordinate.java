@@ -14,4 +14,8 @@ public record Coordinate(int x, int y) {
         var dY = this.y() - other.y();
         return new Coordinate(x + dX, y + dY);
     }
+
+    public int manhattanDistance(Coordinate other) {
+        return Math.abs(x - other.x) + Math.abs(y - other.y);
+    }
 }
