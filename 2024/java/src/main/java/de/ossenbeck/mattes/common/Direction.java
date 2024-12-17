@@ -36,6 +36,16 @@ public enum Direction {
                 .orElseThrow();
     }
 
+    public static Direction of(String arrow) {
+        return switch (arrow) {
+            case "^" -> NORTH;
+            case ">" -> EAST;
+            case "v" -> SOUTH;
+            case "<" -> WEST;
+            default -> throw new IllegalArgumentException("Unknown arrow " + arrow);
+        };
+    }
+
     public Direction opposite() {
         return switch (this) {
             case NORTH -> SOUTH;

@@ -114,4 +114,12 @@ public record Grid(char[][] grid) {
                 (c.y() % height() + height()) % height()
         );
     }
+
+    public Grid copy() {
+        return new Grid(
+                IntStream.range(0, height())
+                        .mapToObj(y -> grid[y].clone())
+                        .toArray(char[][]::new)
+        );
+    }
 }
