@@ -44,12 +44,8 @@ public class Puzzle implements Solvable<Integer, String> {
     @Override
     public String solvePartTwo() {
         var corruptedCoordinates = getInitalCorruptedCoordinates();
-        var path = new HashSet<Coordinate>();
-        var current = findShortestPath(corruptedCoordinates);
-        while (current != null) {
-            path.add(current.coordinate());
-            current = current.previous();
-        }
+        var path = findShortestPath(corruptedCoordinates).path();
+        
         for (var i = corruptedCoordinates.size(); i < allCorruptedCoordinates.size(); i++) {
             var newCorruptedCoordinate = allCorruptedCoordinates.get(i);
             corruptedCoordinates.add(newCorruptedCoordinate);
