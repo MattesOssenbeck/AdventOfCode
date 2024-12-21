@@ -2,6 +2,7 @@ package de.ossenbeck.mattes.common;
 
 import java.util.List;
 import java.util.Set;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -81,6 +82,12 @@ public record Grid(char[][] grid) {
     public List<Coordinate> findAll(char charToFind) {
         return traverse()
                 .filter(coordinate -> charAt(coordinate) == charToFind)
+                .collect(Collectors.toList());
+    }
+
+    public List<Coordinate> findAll(Predicate<Coordinate> filter) {
+        return traverse()
+                .filter(filter)
                 .collect(Collectors.toList());
     }
 
