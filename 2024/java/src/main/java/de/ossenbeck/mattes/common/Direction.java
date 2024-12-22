@@ -46,6 +46,16 @@ public enum Direction {
         };
     }
 
+    public String arrow() {
+        return switch (this) {
+            case NORTH -> "^";
+            case EAST -> ">";
+            case SOUTH -> "v";
+            case WEST -> "<";
+            default -> "";
+        };
+    }
+
     public Direction opposite() {
         return switch (this) {
             case NORTH -> SOUTH;

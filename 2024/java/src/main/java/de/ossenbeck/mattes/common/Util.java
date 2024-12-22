@@ -1,6 +1,8 @@
 package de.ossenbeck.mattes.common;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -13,11 +15,23 @@ public class Util {
     public static final Pattern SINGLE_CHAR_SEPARATOR = Pattern.compile("");
     public static final Pattern NUMBER_PATTERN = Pattern.compile("(-?\\d+)");
 
-    public static List<Integer> parseNumbers(String line) {
+    private static <T> List<T> parseNumbers(String line, Function<String, T> parseFunction) {
         return NUMBER_PATTERN.matcher(line).results()
                 .map(MatchResult::group)
-                .map(Integer::parseInt)
+                .map(parseFunction)
                 .toList();
+    }
+
+    public static List<Integer> parseNumbers(String line) {
+        return parseNumbers(line, Integer::parseInt);
+    }
+
+    public static Integer parseInteger(String line) {
+        return parseNumbers(line, Integer::parseInt).getFirst();
+    }
+
+    public static Long parseLong(String line) {
+        return parseNumbers(line, Long::parseLong).getFirst();
     }
 
     public static List<String> zip(List<String> rows) {
@@ -62,5 +76,23 @@ public class Util {
 
     public static int concatNumbers(int a, int b) {
         return Integer.parseInt(String.valueOf(a) + b);
+    }
+
+    public static List<String> cartesianProduct(List<List<String>> input) {
+        if (input.isEmpty()) {
+            return new ArrayList<>();
+        }
+        if (input.size() == 1) {
+            return input.getFirst();
+        }
+        var first = input.getFirst();
+        var remaining = cartesianProduct(input.subList(1, input.size()));
+        var result = new ArrayList<String>();
+        for (var a : first) {
+            for (var b : remaining) {
+                result.add(a + b);
+            }
+        }
+        return result;
     }
 }
