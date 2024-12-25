@@ -1,0 +1,38 @@
+# https://adventofcode.com/2024/about
+# "Can I copy/redistribute part of Advent of Code? Please don't. Advent of Code is free to use, not free to copy.
+# If you're posting a code repository somewhere, please don't include parts of Advent of Code like the puzzle text or
+# your inputs." ~ Eric Wastl.
+# ---------------------------------------------------------------------------------------------------------------------
+# Example input
+kh-tc
+qp-kh
+de-cg
+ka-co
+yn-aq
+qp-ub
+cg-tb
+vc-aq
+tb-ka
+wh-tc
+yn-cg
+kh-ub
+ta-co
+de-co
+tc-td
+tb-wq
+wh-td
+ta-ka
+td-qp
+aq-cg
+wq-ub
+ub-vc
+de-ta
+wq-aq
+wq-vc
+wh-yn
+ka-de
+kh-ta
+co-tc
+wh-qp
+tb-vc
+td-yn

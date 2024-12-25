@@ -1,7 +1,9 @@
 package de.ossenbeck.mattes.common;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
@@ -93,6 +95,12 @@ public class Util {
                 result.add(a + b);
             }
         }
+        return result;
+    }
+
+    public static Set<String> intersect(Set<String> a, Set<String> b) {
+        var result = new HashSet<>(a);
+        result.retainAll(b);
         return result;
     }
 }
