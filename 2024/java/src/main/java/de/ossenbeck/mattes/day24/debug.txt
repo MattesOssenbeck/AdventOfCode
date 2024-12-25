@@ -1,0 +1,124 @@
+y10 XOR x10 -> rqp -- psj XOR rqp -> z10
+				   \_ psj AND rqp -> bqk ---
+				   						   |
+x10 AND y10 -> hwk --------------- hwk OR bqk -> dnn -- dnn XOR hrd -> z11
+
+
+x11 XOR y11 -> hrd -- dnn XOR hrd -> z11
+				   \_ dnn AND hrd -> jjg ---
+				   						   |
+y11 AND x11 -> fvv --------------- jjg OR fvv -> hwd -- skg XOR hwd -> z12
+
+^^^^^ could be a pattern
+x__ XOR y__ -> ___ -- ___ XOR ___ -> z__
+				   \_ ___ AND ___ -> ___ ---
+				   						   |
+y__ AND x__ -> ___ --------------- ___ OR ___ -> ___ -- ___ XOR ___ -> z__
+
+##########################################################################
+
+x: 101000111010011010101101111011011111011001101
+y: 111100010101011100010000100000000100000011001
+= 1100101001111110110111110011<-011100011011100110 (55661564905190 expected)
+= 1100101010111110111000000100<-011100011011100110 (55730288838374 z)
+							 L z18 is wrong
+
+x18 XOR y18 -> gdw -- ffh XOR gdw -> fvw (should be z18)
+				   \_ gdw AND ffh -> kqr ---
+				   						   |
+y18 AND x18 -> cjb --------------- cjb OR kqr -> z18 -- ndj XOR fvw -> z19
+
+pair to swap (fvw,z18)
+correct:
+
+x18 XOR y18 -> gdw -- ffh XOR gdw -> z18
+				   \_ gdw AND ffh -> kqr ---
+				   						   |
+y18 AND x18 -> cjb --------------- cjb OR kqr -> fvw -- ndj XOR fvw -> z19
+
+##########################################################################
+
+x: 101000111010011010101101111011011111011001101
+y: 111100010101011100010000100000000100000011001
+= 110010100111111011011111<-0011011100011011100110 (55661564905190 expected)
+= 110010101011111011100000<-0011011100011011100110 (55730288576230 z)
+						 L z22 is wrong
+
+x22 XOR y22 -> fsf -- nwg XOR fsf -> mdb (should be z22)
+				   \_ nwg AND fsf -> z22 ---
+				   						   |
+y22 AND x22 -> sbs --------------- sbs OR mdb -> dqr -- bnv XOR dqr -> z23
+
+pair to swap (z22,mdb)
+correct:
+
+x22 XOR y22 -> fsf -- nwg XOR fsf -> z22
+				   \_ nwg AND fsf -> mdb ---
+				   						   |
+y22 AND x22 -> sbs --------------- sbs OR mdb -> dqr -- bnv XOR dqr -> z23
+
+##########################################################################
+
+x: 101000111010011010101101111011011111011001101
+y: 111100010101011100010000100000000100000011001
+= 1100101001<-111110110111110011011100011011100110 (55661564905190 expected)
+= 1100101010<-111110110111110011011100011011100110 (55730284381926 z)
+		   L z36 is wrong
+
+x36 XOR y36 -> svb -- svb XOR fsw -> nwq (should be z36)
+				   \_ fsw AND svb -> tvh ---
+				   						   |
+y36 AND x36 -> z36 --------------- nwq OR tvh -> vmq -- vmq XOR hmw -> z37
+
+pair to swap (z36,nwq)
+correct:
+
+x36 XOR y36 -> svb -- svb XOR fsw -> z36
+				   \_ fsw AND svb -> tvh ---
+				   						   |
+y36 AND x36 -> nwq --------------- nwq OR tvh -> vmq -- vmq XOR hmw -> z37
+
+##########################################################################
+
+x: 101000111010011010101101111011011111011001101
+y: 111100010101011100010000100000000100000011001
+= 1100101001111110110111110011011100011011100110 (55661564905190 expected)
+= 1100101001111110110111110011011100011011100110 (55661564905190 z)
+
+one pair is missing lol
+-------
+
+when I tried to automatically print the graph-like structure from above, I got an error for x05
+...
+...
+y04 XOR x04 -> fdk -- fdk XOR bqv -> z04
+                   \_ bqv AND fdk -> rwg ---
+                                           |
+y04 AND x04 -> jqn --------------- jqn OR rwg -> rpv -- wpq XOR rpv -> z05
+...
+...
+
+There was an error loading the puzzle for day 24
+java.lang.ArrayIndexOutOfBoundsException: Index 1 out of bounds for length 1
+        // stacktrace...
+
+##########################################################################
+
+make the graph-like structure for x05 by hand
+
+x05 XOR y05 -> grf --------------- grf OR wjv -> chd -- rqd XOR chd -> z06
+                ^                          |
+                |                          |
+(swap grf and wpq to match the pattern)    |
+                |                          |
+				v  						   |
+x05 AND y05 -> wpq -- rpv AND wpq -> wjv ---
+                   \_ wpq XOR rpv -> z05
+
+pair to swap (grf,wpq)
+correct:
+
+x05 XOR y05 -> wpq -- wpq XOR rpv -> z05
+				   \_ rpv AND wpq -> wjv ---
+				   						   |
+x05 AND y05 -> grf --------------- grf OR wjv -> chd -- rqd XOR chd -> z06
