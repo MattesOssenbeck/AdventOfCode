@@ -2,7 +2,7 @@ package de.ossenbeck.mattes.day04;
 
 import de.ossenbeck.mattes.SolvableTest;
 
-public class PuzzleTest extends SolvableTest<Integer, Integer> {
+class PuzzleTest extends SolvableTest<Integer, Integer> {
     protected PuzzleTest() {
         super(Puzzle::new, 4);
     }
